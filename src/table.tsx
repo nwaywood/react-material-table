@@ -34,7 +34,10 @@ type Sort = {
     dataName: string
 }
 
-const Table = (props: Props) => <Div>table</Div>
+const Table = (props: Props) => {
+    const [test, setTest] = React.useState(3)
+    return <Div>{test}</Div>
+}
 
 const Div = styled.div`
     color: red;
