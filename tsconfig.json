@@ -6,6 +6,7 @@
         "declaration": false,
         "noImplicitAny": false,
         "sourceMap": true,
+        "types": ["@emotion/core"],
         "jsx": "react",
         "noLib": false,
         "suppressImplicitAnyIndexErrors": true
