@@ -7,12 +7,16 @@ const columns = [
         columnHeader: {
             dataName: "name",
             displayName: "Name",
-        },
+        }
     },
+    { columnHeader: {
+        dataName: "cacti",
+        displayName: "Cacti",
+    }}
 ];
-const data = [{ name: "john" }, { name: "nick" }];
+const data = [{ name: "john", cacti: "Austrocylindropuntia" }, { name: "nick", cactus: "Stenocactus" }];
 
 ReactDOM.render(
-        <Table columns={columns} data={data} />,
+        <Table columns={columns} data={data} defaultSort={{ dataName:"cacti" }} />,
         document.getElementById("root"),
 );

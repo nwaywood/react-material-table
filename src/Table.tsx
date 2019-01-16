@@ -1,5 +1,7 @@
 import styled from "@emotion/styled";
 import * as React from "react";
+import DownwardIconSvg from "./assets/icons/DownwardIcon.svg";
+import UpwardIconSvg from "./assets/icons/UpwardIcon.svg";
 
 type Props = {
     data: object[];
@@ -99,11 +101,13 @@ const ReactMaterialTable = (props: Props) => {
         );
     };
 
-    const { className, data, columns } = props;
+    const { className, data, columns, defaultSort } = props;
+    const [sortedColumn, setSortedColumn] = React.useState(defaultSort);
+
     return (
         <TableDiv className={className}>
             <TableHeaderRowDiv className="table-header-row">
-                {columns.map(renderHeaderColumn(calcTotalProportions(columns)))}
+                {columns.map(renderHeaderColumn(calcTotalProportions(columns), setSortedColumn, sortedColumn))}
             </TableHeaderRowDiv>
             {data.map(renderRow(columns))}
         </TableDiv>
@@ -117,8 +121,17 @@ const calcTotalProportions = (columns: Column[]): number =>
             acc + (val.colWidthProportion ? val.colWidthProportion : 1),
         0,
     );
+const renderArrow = (columnName, sortedName?, order?) => {
+    if (sortedName && columnName === sortedName && !order || order === "asc") {
+        return  <img src={UpwardIconSvg}/>;
+    }
+    if (columnName === sortedName && order === "desc") {
+        return  <img src={DownwardIconSvg}/>;
+    }
+    return null;
+};
 
-const renderHeaderColumn = totalWidthProportions => (
+const renderHeaderColumn = (totalWidthProportions, setSortedColumn, sortedColumn?: Sort) => (
     item: Column,
     index: number,
 ) => (
@@ -129,6 +142,8 @@ const renderHeaderColumn = totalWidthProportions => (
         className="table-header-column"
     >
         {item.columnHeader.displayName}
+        {renderArrow(item.columnHeader.dataName,
+                     sortedColumn && sortedColumn.dataName, sortedColumn && sortedColumn.order)}
     </TableHeaderItemDiv>
 );
 
@@ -141,6 +156,7 @@ const TableHeaderRowDiv = styled.div`
     flex-flow: row nowrap;
     height: 56px;
     align-items: center;
+    border-bottom: 1px solid #827c7c57;
 `;
 const TableHeaderItemDiv = styled.div<{
     colWidthProportion?: number
@@ -155,7 +171,7 @@ const TableRowDiv = styled.div`
     display: flex;
     flex-flow: row nowrap;
     cursor: pointer;
-
+    border-bottom: 1px solid #827c7c57;
     height: 48px;
     align-items: center;
 `;
