@@ -1,7 +1,7 @@
-import styled from '@emotion/styled';
-import * as React from 'react';
+import styled from "@emotion/styled";
+import * as React from "react";
 
-interface Props {
+type Props = {
     data: object[];
     columns: Column[];
     accordion?: (rowData: object) => JSX.Element;
@@ -13,9 +13,9 @@ interface Props {
     sortCallback?: (sort: Sort) => any;
     defaultHiddenColumns?: string[];
     headerCustomContent?: JSX.Element;
-}
+};
 
-interface Column {
+type Column = {
     columnHeader: {
         displayName: string
         dataName: string,
@@ -27,12 +27,12 @@ interface Column {
     ) => string | JSX.Element;
     colWidthProportion?: number;
     sort?: boolean | ((a: object, b: object) => number);
-}
+};
 
-interface Sort {
+type Sort = {
     order?: string;
     dataName: string;
-}
+};
 
 const ReactMaterialTable = (props: Props) => {
     // initialise array with all false values because
@@ -143,7 +143,7 @@ const TableHeaderRowDiv = styled.div`
     align-items: center;
 `;
 const TableHeaderItemDiv = styled.div<{
-    colWidthProportion: number
+    colWidthProportion?: number
     totalWidthProportions: number,
 }>`
     width: ${props =>
@@ -160,7 +160,7 @@ const TableRowDiv = styled.div`
     align-items: center;
 `;
 const TableRowItemDiv = styled.div<{
-    colWidthProportion: number
+    colWidthProportion?: number
     totalWidthProportions: number,
 }>`
     width: ${props =>

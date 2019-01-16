@@ -13,7 +13,9 @@
         "variable-name": [true, "allow-pascal-case"],
         "jsx-no-multiline-js": false,
         "no-console": [true, ["log", "warn"], "warning"],
-        "max-line-length": [true, 120]
+        "max-line-length": [true, 120],
+        "quotemark": [true, "double", "jsx-double"],
+        "interface-over-type-literal": false
     },
     "linterOptions": {
         "exclude": [

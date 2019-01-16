@@ -9,10 +9,10 @@
         "build": "webpack --mode development",
         "format": "tslint --fix \"src/**.{ts,tsx}\" --project tsconfig.json"
     },
-     "husky": {
-           "hooks": {
-                "pre-commit": "lint-staged"
-            }
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
     },
     "lint-staged": {
         "src/**.{ts,tsx}": [
