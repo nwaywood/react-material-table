@@ -1,0 +1,24 @@
+{
+    "extends": [
+      "tslint:latest",
+      "tslint-config-prettier",
+      "tslint-react",
+      "tslint-eslint-rules",
+      "tslint-config-airbnb"
+    ],
+    "rules":{
+        "ter-indent": [true, 4],
+        "indent": [true,"spaces", 4], 
+        "interface-name" : [true, "never-prefix"],
+        "variable-name": [true, "allow-pascal-case"]
+    },
+    "linterOptions": {
+        "exclude": [
+          "bin",
+          "build",
+          "config",
+          "coverage",
+          "node_modules/**"
+        ]
+      }
+  }
