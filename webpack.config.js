@@ -1,19 +1,17 @@
-let path = require("path")
-let HtmlWebpackPlugin = require("html-webpack-plugin")
-let webpack = require("webpack")
+const path = require("path")
+const HtmlWebpackPlugin = require("html-webpack-plugin")
+const webpack = require("webpack")
 
-var basePath = __dirname
+const APP_PATH = path.resolve(__dirname, 'src');
 
 module.exports = {
-    context: path.join(basePath, "src"),
+    context: path.join(__dirname, "src"),
     resolve: {
         extensions: [".js", ".ts", ".tsx"]
     },
-    entry: {
-        app: "./index.tsx"
-    },
+    entry: APP_PATH,
     output: {
-        path: path.join(basePath, "dist"),
+        path: path.resolve(__dirname, 'dist'),
         filename: "[name].js"
     },
     module: {
