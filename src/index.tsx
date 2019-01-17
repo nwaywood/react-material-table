@@ -3,27 +3,27 @@ import * as ReactDOM from "react-dom"
 import Table from "./Table"
 
 const columns = [
-    {
-        columnHeader: {
-            dataName: "name",
-            displayName: "Name"
-        }
-    },
-    {
-        cellValue: row => row.cactus,
-        columnHeader: {
-            dataName: "cacti",
-            displayName: "Cacti"
-        },
-        sort: true
-    },
-    {
-        columnHeader: {
-            dataName: "lifeSupport",
-            displayName: "Life Support"
-        },
-        sort: true
+  {
+    columnHeader: {
+      dataName: "name",
+      displayName: "Name"
     }
+  },
+  {
+    cellValue: row => row.cactus,
+    columnHeader: {
+      dataName: "cacti",
+      displayName: "Cacti"
+    },
+    sort: true
+  },
+  {
+    columnHeader: {
+      dataName: "lifeSupport",
+      displayName: "Life Support"
+    },
+    sort: true
+  }
 ]
 const data = [
   { name: "john", cacti: "Austrocylindropuntia", lifeSupport: "Machiato" },

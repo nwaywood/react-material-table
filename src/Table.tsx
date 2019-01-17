@@ -4,36 +4,36 @@ import DownwardIconSvg from "./assets/icons/DownwardIcon.svg"
 import UpwardIconSvg from "./assets/icons/UpwardIcon.svg"
 
 type Props = {
-    data: object[];
-    columns: Column[];
-    accordion?: (rowData: object) => JSX.Element;
-    onRowSelection?: (o: { rowData: object; toggleAccordion: () => any }) => any;
-    className?: string;
-    header?: string;
-    loading?: boolean;
-    defaultSort?: Sort;
-    sortCallback?: (sort: Sort) => any;
-    defaultHiddenColumns?: string[];
-    headerCustomContent?: JSX.Element;
+  data: object[];
+  columns: Column[];
+  accordion?: (rowData: object) => JSX.Element;
+  onRowSelection?: (o: { rowData: object; toggleAccordion: () => any }) => any;
+  className?: string;
+  header?: string;
+  loading?: boolean;
+  defaultSort?: Sort;
+  sortCallback?: (sort: Sort) => any;
+  defaultHiddenColumns?: string[];
+  headerCustomContent?: JSX.Element;
 }
 
 type Column = {
-    columnHeader: {
-        displayName: string;
-        dataName: string;
-    };
-    cellValue?: (
+  columnHeader: {
+    displayName: string;
+    dataName: string;
+  };
+  cellValue?: (
     rowData: object,
     toggleAccordion: () => any,
     isOpen: boolean
   ) => string | JSX.Element;
-    colWidthProportion?: number;
-    sort?: boolean | ((a: object, b: object) => number);
+  colWidthProportion?: number;
+  sort?: boolean | ((a: object, b: object) => number);
 }
 
 type Sort = {
-    order?: string;
-    dataName: string;
+  order?: string;
+  dataName: string;
 }
 
 const ReactMaterialTable = (props: Props) => {
@@ -41,24 +41,24 @@ const ReactMaterialTable = (props: Props) => {
   // no items are open initially
   // tslint:disable-next-line
   const bools = new Array(props.data.length).fill(false);
-    const [openIndexes, setOpenIndexes] = React.useState(bools)
+  const [openIndexes, setOpenIndexes] = React.useState(bools)
 
-    const toggleAccordion = (index: number) => () => {
+  const toggleAccordion = (index: number) => () => {
     // update the openIndexes bools
-        const tmp = [...openIndexes]
-        tmp[index] = !tmp[index]
-        setOpenIndexes(tmp)
-    }
+    const tmp = [...openIndexes]
+    tmp[index] = !tmp[index]
+    setOpenIndexes(tmp)
+  }
 
-    const createRenderRowClickCallback = (
+  const createRenderRowClickCallback = (
     onRowSelection,
     rowItem: object,
     toggleAccordionFn: () => void
   ) => () => {
-      return onRowSelection({ rowItem, toggleAccordionFn })
+    return onRowSelection({ rowItem, toggleAccordionFn })
   }
-    const renderRow = (columnArray: Column[]) => {
-        return (rowItem: object, index: number) => (
+  const renderRow = (columnArray: Column[]) => {
+    return (rowItem: object, index: number) => (
       <div key={index}>
         <TableRowDiv
           className="table-row"
@@ -82,28 +82,28 @@ const ReactMaterialTable = (props: Props) => {
           : null}
       </div>
     )
-    }
+  }
 
-    const renderRowColumn = (
+  const renderRowColumn = (
     rowItem: object,
     totalWidthProportions: number,
     index: number
   ) => (columnItem: Column, columnIndex: number) => {
-      let tmp
-      if (columnItem.cellValue) {
-          tmp = columnItem.cellValue(rowItem, () => null, openIndexes[index])
-      } else {
-          const cellData = rowItem[columnItem.columnHeader.dataName]
-          if (cellData === undefined) {
-              console.warn(
+    let tmp
+    if (columnItem.cellValue) {
+      tmp = columnItem.cellValue(rowItem, () => null, openIndexes[index])
+    } else {
+      const cellData = rowItem[columnItem.columnHeader.dataName]
+      if (cellData === undefined) {
+        console.warn(
           `dataName "${
             columnItem.columnHeader.dataName
           }" does not match any of the data fields. Make sure the key/value pair matches the dataname`
         )
-          }
-          tmp = cellData
       }
-      return (
+      tmp = cellData
+    }
+    return (
       <TableRowItemDiv
         key={columnIndex}
         totalWidthProportions={totalWidthProportions}
@@ -111,24 +111,24 @@ const ReactMaterialTable = (props: Props) => {
       >
         {tmp}
       </TableRowItemDiv>
-      )
+    )
   }
 
-    const { className, data, columns, defaultSort } = props
-    const [sortedColumn, setSortedColumn] = React.useState(defaultSort)
-    const sortData = (
+  const { className, data, columns, defaultSort } = props
+  const [sortedColumn, setSortedColumn] = React.useState(defaultSort)
+  const sortData = (
     rows: object[],
     allColumns: Column[],
     currentlySortedColumn?: Sort
   ) => {
-        if (currentlySortedColumn) {
-            console.log("I should sort with this", currentlySortedColumn)
-            return rows
-        }
-        return rows
+    if (currentlySortedColumn) {
+      console.log("I should sort with this", currentlySortedColumn)
+      return rows
     }
+    return rows
+  }
 
-    return (
+  return (
     <TableDiv className={className}>
       <TableHeaderRowDiv className="table-header-row">
         {columns.map(
@@ -141,7 +141,7 @@ const ReactMaterialTable = (props: Props) => {
       </TableHeaderRowDiv>
       {sortData(data, columns, sortedColumn).map(renderRow(columns))}
     </TableDiv>
-    )
+  )
 }
 
 // sum up all the supplied proportions or default to 1
@@ -151,16 +151,16 @@ const calcTotalProportions = (columns: Column[]): number =>
     0
   )
 const renderArrow = (sortable: boolean, isCurrentColumn: boolean, order?) => {
-    if (isCurrentColumn && (!order || order === "asc")) {
-        return <img src={UpwardIconSvg} />
-    }
-    if (isCurrentColumn && order === "desc") {
-        return <img src={DownwardIconSvg} />
-    }
-    if (sortable) {
-        return <HoverableArrow id="hoverableArrow" src={UpwardIconSvg} />
-    }
-    return null
+  if (isCurrentColumn && (!order || order === "asc")) {
+    return <img src={UpwardIconSvg} />
+  }
+  if (isCurrentColumn && order === "desc") {
+    return <img src={DownwardIconSvg} />
+  }
+  if (sortable) {
+    return <HoverableArrow id="hoverableArrow" src={UpwardIconSvg} />
+  }
+  return null
 }
 const setCurrentSortColumn = (
   isCurrentColumn: boolean,
@@ -168,15 +168,15 @@ const setCurrentSortColumn = (
   setSortedColumn: (s: Sort) => void,
   sortedColumn?: Sort
 ) => {
-    const sortObj = { dataName: column.columnHeader.dataName, order: "asc" }
-    if (column.sort && isCurrentColumn) {
-        if (sortedColumn && (sortedColumn.order === "asc" || !sortedColumn.order)) {
-            sortObj.order = "desc"
-        } else if (sortedColumn && sortedColumn.order === "desc") {
-            sortObj.order = "asc"
-        }
+  const sortObj = { dataName: column.columnHeader.dataName, order: "asc" }
+  if (column.sort && isCurrentColumn) {
+    if (sortedColumn && (sortedColumn.order === "asc" || !sortedColumn.order)) {
+      sortObj.order = "desc"
+    } else if (sortedColumn && sortedColumn.order === "desc") {
+      sortObj.order = "asc"
     }
-    setSortedColumn(sortObj)
+  }
+  setSortedColumn(sortObj)
 }
 
 const renderHeaderColumn = (
@@ -184,10 +184,10 @@ const renderHeaderColumn = (
   setSortedColumn: (s: Sort) => void,
   sortedColumn?: Sort
 ) => (item: Column, index: number) => {
-    const isCurrentColumn = sortedColumn
+  const isCurrentColumn = sortedColumn
     ? item.columnHeader.dataName === sortedColumn.dataName
     : false
-    return (
+  return (
     <TableHeaderItemDiv
       key={index}
       totalWidthProportions={totalWidthProportions}
@@ -213,7 +213,7 @@ const renderHeaderColumn = (
         sortedColumn && sortedColumn.order
       )}
     </TableHeaderItemDiv>
-    )
+  )
 }
 
 const HoverableArrow = styled.img`
@@ -232,10 +232,10 @@ const TableHeaderRowDiv = styled.div`
   border-bottom: 1px solid #827c7c57;
 `
 const TableHeaderItemDiv = styled.div<{
-    colWidthProportion?: number;
-    totalWidthProportions: number;
-    onClick: any;
-    sortable: boolean;
+  colWidthProportion?: number;
+  totalWidthProportions: number;
+  onClick: any;
+  sortable: boolean;
 }>`
   width: ${props =>
     `${((props.colWidthProportion || 1) / props.totalWidthProportions) *
@@ -255,8 +255,8 @@ const TableRowDiv = styled.div`
   align-items: center;
 `
 const TableRowItemDiv = styled.div<{
-    colWidthProportion?: number;
-    totalWidthProportions: number;
+  colWidthProportion?: number;
+  totalWidthProportions: number;
 }>`
   width: ${props =>
     `${((props.colWidthProportion || 1) / props.totalWidthProportions) *
