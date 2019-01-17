@@ -43,15 +43,6 @@ const ReactMaterialTable = (props: Props) => {
     const bools = new Array(props.data.length).fill(false)
     const [openIndexes, setOpenIndexes] = React.useState(bools)
 
-    const onRowClick = (index: number) => {
-        return () => {
-            // update the openIndexes bools
-            const boolArray = [...openIndexes]
-            boolArray[index] = !boolArray[index]
-            setOpenIndexes(boolArray)
-        }
-    }
-
     const toggleAccordion = (index: number) => () => {
         // update the openIndexes bools
         const tmp = [...openIndexes]
