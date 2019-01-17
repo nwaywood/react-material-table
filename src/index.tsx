@@ -1,22 +1,33 @@
-import * as React from "react";
-import * as ReactDOM from "react-dom";
-import Table from "./Table";
+import * as React from "react"
+import * as ReactDOM from "react-dom"
+import Table from "./Table"
 
 const columns = [
     {
         columnHeader: {
             dataName: "name",
-            displayName: "Name",
+            displayName: "Name"
         }
     },
-    { columnHeader: {
-        dataName: "cacti",
-        displayName: "Cacti",
-    }}
-];
-const data = [{ name: "john", cacti: "Austrocylindropuntia" }, { name: "nick", cactus: "Stenocactus" }];
+    {
+        columnHeader: {
+            dataName: "cacti",
+            displayName: "Cacti"
+        }
+    }
+]
+const data = [
+    { name: "john", cacti: "Austrocylindropuntia" },
+    { name: "nick", cactus: "Stenocactus" }
+]
 
 ReactDOM.render(
-        <Table columns={columns} data={data} defaultSort={{ dataName:"cacti" }} />,
-        document.getElementById("root"),
-);
+    <Table
+        columns={columns}
+        data={data}
+        accordion={() => <div>hello</div>}
+        onRowSelection={({ toggleAccordion }) => toggleAccordion()}
+        defaultSort={{ dataName: "cacti" }}
+    />,
+    document.getElementById("root")
+)
