@@ -9,12 +9,24 @@ const columns = [
             displayName: "Name",
         }
     },
-    { columnHeader: {
-        dataName: "cacti",
-        displayName: "Cacti",
-    }}
+    {
+        cellValue: row => row.cactus,
+        columnHeader: {
+            dataName: "cacti",
+            displayName: "Cacti",
+        },
+        sort: true
+    },
+    {
+        columnHeader: {
+            dataName: "lifeSupport",
+            displayName: "Life Support",
+        },
+        sort: true
+    }
 ];
-const data = [{ name: "john", cacti: "Austrocylindropuntia" }, { name: "nick", cactus: "Stenocactus" }];
+const data = [{ name: "john", cacti: "Austrocylindropuntia", lifeSupport:"Machiato" },
+              { name: "nick", cactus: "Stenocactus", lifeSupport:"Latte" }];
 
 ReactDOM.render(
         <Table columns={columns} data={data} defaultSort={{ dataName:"cacti" }} />,
