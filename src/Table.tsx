@@ -114,32 +114,56 @@ const ReactMaterialTable = (props: Props) => {
     )
   }
 
-  const { className, data, columns, defaultSort } = props
-  const [sortedColumn, setSortedColumn] = React.useState(defaultSort)
+  const [sortedColumn, setSortedColumn] = React.useState(props.defaultSort)
   const sortData = (
-    rows: object[],
+    data: object[],
     allColumns: Column[],
     currentlySortedColumn?: Sort
   ) => {
+    let sortedData = [...data]
     if (currentlySortedColumn) {
-      console.log("I should sort with this", currentlySortedColumn)
-      return rows
+      // retrieve the column object for the currently sorted column
+      const column = allColumns.find(
+        el => el.columnHeader.dataName === currentlySortedColumn.dataName
+      )
+      if (column && column.sort) {
+        // if a boolean is provided, do normal alphanumeric sorting, otherwise use provided sort function
+        if (typeof column.sort === "boolean") {
+          sortedData = data.sort(
+            sortFn(column.columnHeader.dataName, currentlySortedColumn.order)
+          )
+        } else if (
+          typeof column.sort === "function" &&
+          currentlySortedColumn.order === "asc"
+        ) {
+          sortedData = data.sort(column.sort)
+        } else if (
+          typeof column.sort === "function" &&
+          currentlySortedColumn.order === "desc"
+        ) {
+          sortedData = data.sort(column.sort).reverse()
+        } else {
+          console.warn("Invalid options supplied to sorting field")
+        }
+      }
     }
-    return rows
+    return sortedData
   }
 
   return (
-    <TableDiv className={className}>
+    <TableDiv className={props.className}>
       <TableHeaderRowDiv className="table-header-row">
-        {columns.map(
+        {props.columns.map(
           renderHeaderColumn(
-            calcTotalProportions(columns),
+            calcTotalProportions(props.columns),
             setSortedColumn,
             sortedColumn
           )
         )}
       </TableHeaderRowDiv>
-      {sortData(data, columns, sortedColumn).map(renderRow(columns))}
+      {sortData(props.data, props.columns, sortedColumn).map(
+        renderRow(props.columns)
+      )}
     </TableDiv>
   )
 }
