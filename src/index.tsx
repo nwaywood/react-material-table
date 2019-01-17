@@ -21,12 +21,15 @@ const data = [
     { name: "nick", cactus: "Stenocactus" }
 ]
 
+const onRowSelection = ({ toggleAccordion }) => toggleAccordion()
+const accordion = () => <div>hello</div>
+
 ReactDOM.render(
     <Table
         columns={columns}
         data={data}
-        accordion={() => <div>hello</div>}
-        onRowSelection={({ toggleAccordion }) => toggleAccordion()}
+        accordion={accordion}
+        onRowSelection={onRowSelection}
         defaultSort={{ dataName: "cacti" }}
     />,
     document.getElementById("root")

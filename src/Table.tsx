@@ -62,9 +62,9 @@ const ReactMaterialTable = (props: Props) => {
     const createRenderRowClickCallback = (
         onRowSelection,
         rowItem: object,
-        toggleAccordion: () => void
+        toggleAccordionFn: () => void
     ) => () => {
-        return onRowSelection({ rowItem, toggleAccordion })
+        return onRowSelection({ rowItem, toggleAccordionFn })
     }
     const renderRow = (columnArray: Column[]) => {
         return (rowItem: object, index: number) => (
