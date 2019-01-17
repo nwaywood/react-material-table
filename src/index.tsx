@@ -26,19 +26,19 @@ const columns = [
     }
 ]
 const data = [
-  { name: "john", cacti: "Austrocylindropuntia", lifeSupport: "Machiato" },
-  { name: "nick", cactus: "Stenocactus", lifeSupport: "Latte" }
+    { name: "john", cacti: "Austrocylindropuntia", lifeSupport: "Machiato" },
+    { name: "nick", cactus: "Stenocactus", lifeSupport: "Latte" }
 ]
 
 const onRowSelection = ({ toggleAccordion }) => toggleAccordion()
 const accordion = () => <div>hello</div>
 ReactDOM.render(
-  <Table
-    columns={columns}
-    data={data}
-    accordion={accordion}
-    onRowSelection={onRowSelection}
-    defaultSort={{ dataName: "cacti" }}
-  />,
-  document.getElementById("root")
+    <Table
+        columns={columns}
+        data={data}
+        accordion={accordion}
+        onRowSelection={onRowSelection}
+        defaultSort={{ dataName: "cacti" }}
+    />,
+    document.getElementById("root")
 )
