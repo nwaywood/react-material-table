@@ -7,7 +7,10 @@
         "tslint-plugin-prettier"
     ],
     "rules": {
-        "prettier": [true, {"tabWidth":4, "semi":false} ],
+        "prettier": [true, {
+            "tabWidth": 4,
+            "semi": false
+        }],
         "indent": [true, "spaces", 4],
         "interface-name": [true, "never-prefix"],
         "variable-name": [true, "allow-pascal-case"],
@@ -16,6 +19,7 @@
         "max-line-length": [true, 120],
         "quotemark": [true, "double", "jsx-double"],
         "interface-over-type-literal": false,
+        "object-literal-sort-keys": false,
         "trailing-comma": false
     },
     "linterOptions": {
@@ -30,5 +34,5 @@
     "rulesDirectory": [
         "tslint-plugin-prettier",
         "tslint-eslint-rules"
-      ]
+    ]
 }

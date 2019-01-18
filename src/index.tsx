@@ -4,24 +4,19 @@ import Table from "./Table"
 
 const columns = [
     {
-        columnHeader: {
-            dataName: "name",
-            displayName: "Name"
-        }
-    },
-    {
-        cellValue: row => row.cactus,
-        columnHeader: {
-            dataName: "cacti",
-            displayName: "Cacti"
-        },
+        dataName: "name",
+        title: "Name",
         sort: true
     },
     {
-        columnHeader: {
-            dataName: "lifeSupport",
-            displayName: "Life Support"
-        },
+        dataName: "cacti",
+        title: "Cacti",
+        cellValue: row => row.cactus,
+        sort: true
+    },
+    {
+        dataName: "lifeSupport",
+        title: "Life Support",
         sort: true
     }
 ]

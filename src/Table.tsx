@@ -1,162 +1,70 @@
 import styled from "@emotion/styled"
 import * as React from "react"
-import UpwardIconSvg from "./asets/icons/UpwardIcon.svg"
-import DownwardIconSvg from "./ssets/icons/DownwardIcon.svg"
+import DownwardIconSvg from "./assets/icons/DownwardIcon.svg"
+import UpwardIconSvg from "./assets/icons/UpwardIcon.svg"
 import { isDate } from "./util"
 
 type Props = {
+    // array of data to be populated in the table
     data: object[]
+    // Specify the details of the columns in the table
     columns: Column[]
+    // accordion is a function that returns the JSX to be rendered for the accordions
     accordion?: (rowData: object) => JSX.Element
+    // function to be called when a row is clicked, its provided with the rowData and a function
+    // to toggle the accordion
     onRowSelection?: (o: { rowData: object; toggleAccordion: () => any }) => any
+    // entrypoint for overriding styles, will work with any styling solution that supports nested selectors
     className?: string
     header?: string
     loading?: boolean
     defaultSort?: Sort
+    // sortCallback can be supplied if you want complete control of the sorting (e.g. for remote sorting)
     sortCallback?: (sort: Sort) => any
     defaultHiddenColumns?: string[]
     headerCustomContent?: JSX.Element
 }
 
 type Column = {
-    columnHeader: {
-        displayName: string
-        dataName: string
-    }
+    // the column header title
+    title: string
+    // dataName is the name of the field in `data` to display in this column, this
+    // field is also used to sorting and therefore is required even if cellValue is provided
+    dataName: string
+    // cellValue is a render prop that lets you customise what is rendered for the data in a specific column
     cellValue?: (
-        rowData: object,
-        toggleAccordion: () => any,
-        isOpen: boolean
+        o: {
+            rowData: object
+            toggleAccordion: () => any
+            isOpen: boolean
+        }
     ) => string | JSX.Element
+    // sizing the columns of the table is done with colWidthProportion, under the hood it just applies
+    // the flex property with the specified value, if not supplied the default is 1
     colWidthProportion?: number
+    // sort determine whether the column is sortable or not, if a boolean is supplied than the column is sorted
+    // alphanumerically. A custom sort function can also be supplied
     sort?: boolean | ((a: object, b: object) => number)
 }
 
 type Sort = {
-    order?: string
+    // The dataName of the columns that is being sorted
     dataName: string
+    // The order of the sorted data ("asc" or "desc")
+    order?: string
 }
 
 const ReactMaterialTable = (props: Props) => {
+    const [sortedColumn, setSortedColumn] = React.useState(props.defaultSort)
     // initialise array with all false values because
     // no items are open initially
-    // tslint:disable-next-line
-  const bools = new Array(props.data.length).fill(false);
+    const bools = new Array(props.data.length).fill(false)
     const [openIndexes, setOpenIndexes] = React.useState(bools)
-
     const toggleAccordion = (index: number) => () => {
         // update the openIndexes bools
         const tmp = [...openIndexes]
         tmp[index] = !tmp[index]
         setOpenIndexes(tmp)
-    }
-
-    const createRenderRowClickCallback = (
-        onRowSelection,
-        rowItem: object,
-        toggleAccordionFn: () => void
-    ) => () => {
-        return onRowSelection({ rowItem, toggleAccordionFn })
-    }
-    const renderRow = (columnArray: Column[]) => {
-        return (rowItem: object, index: number) => (
-            <div key={index}>
-                <TableRowDiv
-                    className="table-row"
-                    // only add onClick listener if user has supplied a function
-                    onClick={
-                        props.onRowSelection
-                            ? createRenderRowClickCallback(
-                                  props.onRowSelection,
-                                  rowItem,
-                                  toggleAccordion(index)
-                              )
-                            : () => false
-                    }
-                >
-                    {columnArray.map(
-                        renderRowColumn(
-                            rowItem,
-                            calcTotalProportions(props.columns),
-                            index
-                        )
-                    )}
-                </TableRowDiv>
-                {openIndexes[index] && props.accordion
-                    ? props.accordion(rowItem)
-                    : null}
-            </div>
-        )
-    }
-
-    const renderRowColumn = (
-        rowItem: object,
-        totalWidthProportions: number,
-        index: number
-    ) => (columnItem: Column, columnIndex: number) => {
-        let tmp
-        if (columnItem.cellValue) {
-            tmp = columnItem.cellValue(rowItem, () => null, openIndexes[index])
-        } else {
-            const cellData = rowItem[columnItem.columnHeader.dataName]
-            if (cellData === undefined) {
-                console.warn(
-                    `dataName "${
-                        columnItem.columnHeader.dataName
-                    }" does not match any of the data fields. Make sure the key/value pair matches the dataname`
-                )
-            }
-            tmp = cellData
-        }
-        return (
-            <TableRowItemDiv
-                key={columnIndex}
-                totalWidthProportions={totalWidthProportions}
-                colWidthProportion={columnItem.colWidthProportion}
-            >
-                {tmp}
-            </TableRowItemDiv>
-        )
-    }
-
-    const [sortedColumn, setSortedColumn] = React.useState(props.defaultSort)
-    const sortData = (
-        data: object[],
-        allColumns: Column[],
-        currentlySortedColumn?: Sort
-    ) => {
-        let sortedData = [...data]
-        if (currentlySortedColumn) {
-            // retrieve the column object for the currently sorted column
-            const column = allColumns.find(
-                el =>
-                    el.columnHeader.dataName === currentlySortedColumn.dataName
-            )
-            if (column && column.sort) {
-                // if a boolean is provided, do normal alphanumeric sorting, otherwise use provided sort function
-                if (typeof column.sort === "boolean") {
-                    sortedData = data.sort(
-                        sortFn(
-                            column.columnHeader.dataName,
-                            currentlySortedColumn.order
-                        )
-                    )
-                } else if (
-                    typeof column.sort === "function" &&
-                    currentlySortedColumn.order === "asc"
-                ) {
-                    sortedData = data.sort(column.sort)
-                } else if (
-                    typeof column.sort === "function" &&
-                    currentlySortedColumn.order === "desc"
-                ) {
-                    sortedData = data.sort(column.sort).reverse()
-                } else {
-                    console.warn("Invalid options supplied to sorting field")
-                }
-            }
-        }
-        return sortedData
     }
 
     return (
@@ -171,10 +79,161 @@ const ReactMaterialTable = (props: Props) => {
                 )}
             </TableHeaderRowDiv>
             {sortData(props.data, props.columns, sortedColumn).map(
-                renderRow(props.columns)
+                renderRow(
+                    props.columns,
+                    props.onRowSelection,
+                    props.accordion,
+                    toggleAccordion,
+                    openIndexes
+                )
             )}
         </TableDiv>
     )
+}
+
+const renderRow = (
+    columns: Column[],
+    onRowSelection,
+    accordion,
+    toggleAccordion,
+    openIndexes: boolean[]
+) => {
+    return (rowItem: object, index: number) => (
+        <div key={index}>
+            <TableRowDiv
+                className="table-row"
+                // only add onClick listener if user has supplied a function
+                onClick={
+                    onRowSelection
+                        ? () =>
+                              onRowSelection({
+                                  rowData: rowItem,
+                                  toggleAccordion: toggleAccordion(index)
+                              })
+                        : () => false
+                }
+            >
+                {columns.map(
+                    renderRowColumn(
+                        rowItem,
+                        calcTotalProportions(columns),
+                        index,
+                        openIndexes,
+                        toggleAccordion
+                    )
+                )}
+            </TableRowDiv>
+            {openIndexes[index] && accordion ? accordion(rowItem) : null}
+        </div>
+    )
+}
+
+const renderRowColumn = (
+    rowItem: object,
+    totalWidthProportions: number,
+    index: number,
+    openIndexes: boolean[],
+    toggleAccordion
+) => (columnItem: Column, columnIndex: number) => {
+    let tmp
+    if (columnItem.cellValue) {
+        tmp = columnItem.cellValue({
+            isOpen: openIndexes[index],
+            rowData: rowItem,
+            toggleAccordion: toggleAccordion(index)
+        })
+    } else {
+        const cellData = rowItem[columnItem.dataName]
+        if (cellData === undefined) {
+            console.warn(
+                `dataName "${
+                    columnItem.dataName
+                }" does not match any of the data fields. Make sure the key/value pair matches the dataname`
+            )
+        }
+        tmp = cellData
+    }
+    return (
+        <TableRowItemDiv
+            key={columnIndex}
+            totalWidthProportions={totalWidthProportions}
+            colWidthProportion={columnItem.colWidthProportion}
+        >
+            {tmp}
+        </TableRowItemDiv>
+    )
+}
+
+const renderHeaderColumn = (
+    totalWidthProportions: number,
+    setSortedColumn: (s: Sort) => void,
+    sortedColumn?: Sort
+) => (item: Column, index: number) => {
+    const isCurrentColumn = sortedColumn
+        ? item.dataName === sortedColumn.dataName
+        : false
+    return (
+        <TableHeaderItemDiv
+            key={index}
+            totalWidthProportions={totalWidthProportions}
+            colWidthProportion={item.colWidthProportion}
+            className="table-header-column"
+            onClick={
+                item.sort
+                    ? () =>
+                          setCurrentSortColumn(
+                              isCurrentColumn,
+                              item,
+                              setSortedColumn,
+                              sortedColumn
+                          )
+                    : () => false
+            }
+            sortable={!!item.sort}
+        >
+            {item.title}
+            {renderArrow(
+                !!item.sort,
+                isCurrentColumn,
+                sortedColumn && sortedColumn.order
+            )}
+        </TableHeaderItemDiv>
+    )
+}
+
+const sortData = (
+    data: object[],
+    allColumns: Column[],
+    currentlySortedColumn?: Sort
+) => {
+    let sortedData = [...data]
+    if (currentlySortedColumn) {
+        // retrieve the column object for the currently sorted column
+        const column = allColumns.find(
+            el => el.dataName === currentlySortedColumn.dataName
+        )
+        if (column && column.sort) {
+            // if a boolean is provided, do normal alphanumeric sorting, otherwise use provided sort function
+            if (typeof column.sort === "boolean") {
+                sortedData = data.sort(
+                    sortFn(column.dataName, currentlySortedColumn.order)
+                )
+            } else if (
+                typeof column.sort === "function" &&
+                currentlySortedColumn.order === "asc"
+            ) {
+                sortedData = data.sort(column.sort)
+            } else if (
+                typeof column.sort === "function" &&
+                currentlySortedColumn.order === "desc"
+            ) {
+                sortedData = data.sort(column.sort).reverse()
+            } else {
+                console.warn("Invalid options supplied to sorting field")
+            }
+        }
+    }
+    return sortedData
 }
 
 // sortFn is a closure that generates the comparator function for sorting the data
@@ -226,7 +285,7 @@ const setCurrentSortColumn = (
     setSortedColumn: (s: Sort) => void,
     sortedColumn?: Sort
 ) => {
-    const sortObj = { dataName: column.columnHeader.dataName, order: "asc" }
+    const sortObj = { dataName: column.dataName, order: "asc" }
     if (column.sort && isCurrentColumn) {
         if (
             sortedColumn &&
@@ -238,43 +297,6 @@ const setCurrentSortColumn = (
         }
     }
     setSortedColumn(sortObj)
-}
-
-const renderHeaderColumn = (
-    totalWidthProportions: number,
-    setSortedColumn: (s: Sort) => void,
-    sortedColumn?: Sort
-) => (item: Column, index: number) => {
-    const isCurrentColumn = sortedColumn
-        ? item.columnHeader.dataName === sortedColumn.dataName
-        : false
-    return (
-        <TableHeaderItemDiv
-            key={index}
-            totalWidthProportions={totalWidthProportions}
-            colWidthProportion={item.colWidthProportion}
-            className="table-header-column"
-            onClick={
-                item.sort
-                    ? () =>
-                          setCurrentSortColumn(
-                              isCurrentColumn,
-                              item,
-                              setSortedColumn,
-                              sortedColumn
-                          )
-                    : () => false
-            }
-            sortable={!!item.sort}
-        >
-            {item.columnHeader.displayName}
-            {renderArrow(
-                !!item.sort,
-                isCurrentColumn,
-                sortedColumn && sortedColumn.order
-            )}
-        </TableHeaderItemDiv>
-    )
 }
 
 const HoverableArrow = styled.img`
