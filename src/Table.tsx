@@ -94,7 +94,7 @@ const ReactMaterialTable = (props: Props) => {
     )
 }
 
-const buildTitleRow = (header: string, headerCustomContent: JSX.Element) => (
+const buildTitleRow = (header?: string, headerCustomContent?: JSX.Element) => (
     <TableTitleRow>
         <TableTitleDiv>{header}</TableTitleDiv>
         {headerCustomContent}
