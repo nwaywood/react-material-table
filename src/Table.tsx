@@ -102,6 +102,7 @@ const renderRow = (
         <div key={index}>
             <TableRowDiv
                 className="table-row"
+                clickable={!!onRowSelection}
                 // only add onClick listener if user has supplied a function
                 onClick={
                     onRowSelection
@@ -189,7 +190,7 @@ const renderHeaderColumn = (
                           )
                     : () => false
             }
-            sortable={!!item.sort}
+            clickable={!!item.sort}
         >
             {item.title}
             {renderArrow(
@@ -269,13 +270,19 @@ const calcTotalProportions = (columns: Column[]): number =>
     )
 const renderArrow = (sortable: boolean, isCurrentColumn: boolean, order?) => {
     if (isCurrentColumn && (!order || order === "asc")) {
-        return <img src={UpwardIconSvg} />
+        return <img style={{ height: "20px" }} src={UpwardIconSvg} />
     }
     if (isCurrentColumn && order === "desc") {
-        return <img src={DownwardIconSvg} />
+        return <img style={{ height: "20px" }} src={DownwardIconSvg} />
     }
     if (sortable) {
-        return <HoverableArrow id="hoverableArrow" src={UpwardIconSvg} />
+        return (
+            <HoverableArrow
+                style={{ height: "20px" }}
+                id="hoverableArrow"
+                src={UpwardIconSvg}
+            />
+        )
     }
     return null
 }
@@ -302,24 +309,35 @@ const setCurrentSortColumn = (
 const HoverableArrow = styled.img`
     display: none;
 `
-
 const TableDiv = styled.div`
     display: flex;
     flex-flow: column nowrap;
+    font-family: "Roboto", "Helvetica", "Arial", "sans-serif";
+`
+const TableTitleDiv = styled.div`
+    display: flex;
+    height: 64px;
+    align-items: center;
 `
 const TableHeaderRowDiv = styled.div`
     display: flex;
     flex-flow: row nowrap;
-    height: 56px;
+    height: 48px;
     align-items: center;
-    border-bottom: 1px solid #827c7c57;
+    border-bottom: 1px solid #e0e0e0;
+    /* material subtitle 2 */
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 0.1;
 `
 const TableHeaderItemDiv = styled.div<{
     colWidthProportion?: number
     totalWidthProportions: number
     onClick: any
-    sortable: boolean
+    clickable: boolean
 }>`
+    display: flex;
+    align-items: center;
     width: ${props =>
         `${((props.colWidthProportion || 1) / props.totalWidthProportions) *
             100}%`};
@@ -327,15 +345,22 @@ const TableHeaderItemDiv = styled.div<{
         display: inline;
     }
     padding: 0px 10px;
-    cursor: ${props => (props.sortable ? "pointer" : "cursor")};
+    cursor: ${props => (props.clickable ? "pointer" : "cursor")};
+    /* https://davidwalsh.name/css-ellipsis */
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 `
-const TableRowDiv = styled.div`
+const TableRowDiv = styled.div<{ clickable: boolean }>`
     display: flex;
     flex-flow: row nowrap;
-    cursor: pointer;
-    border-bottom: 1px solid #827c7c57;
+    cursor: ${props => (props.clickable ? "pointer" : "cursor")};
+    border-bottom: 1px solid #e0e0e0;
     height: 48px;
     align-items: center;
+    /* material subtitle 1 */
+    font-size: 16px;
+    letter-spacing: 0.15;
 `
 const TableRowItemDiv = styled.div<{
     colWidthProportion?: number
@@ -345,6 +370,10 @@ const TableRowItemDiv = styled.div<{
         `${((props.colWidthProportion || 1) / props.totalWidthProportions) *
             100}%`};
     padding: 0px 10px;
+    /* https://davidwalsh.name/css-ellipsis */
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 `
 
 export default ReactMaterialTable

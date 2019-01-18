@@ -11,7 +11,7 @@ const columns = [
     {
         dataName: "cacti",
         title: "Cacti",
-        cellValue: row => row.cactus,
+        cellValue: ({ rowData }) => rowData.cacti,
         sort: true
     },
     {
@@ -22,7 +22,7 @@ const columns = [
 ]
 const data = [
     { name: "john", cacti: "Austrocylindropuntia", lifeSupport: "Machiato" },
-    { name: "nick", cactus: "Stenocactus", lifeSupport: "Latte" }
+    { name: "nick", cacti: "Stenocactus", lifeSupport: "Latte" }
 ]
 
 const onRowSelection = ({ toggleAccordion }) => toggleAccordion()
