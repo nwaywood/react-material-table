@@ -1,11 +1,13 @@
 {
     "extends": [
         "tslint:latest",
-        "tslint-config-prettier",
         "tslint-react",
-        "tslint-config-airbnb"
+        "tslint-eslint-rules",
+        "tslint-config-prettier",
+        "tslint-plugin-prettier"
     ],
     "rules": {
+        "prettier": [true, {"tabWidth":4, "semi":false} ],
         "indent": [true, "spaces", 4],
         "interface-name": [true, "never-prefix"],
         "variable-name": [true, "allow-pascal-case"],
@@ -14,8 +16,7 @@
         "max-line-length": [true, 120],
         "quotemark": [true, "double", "jsx-double"],
         "interface-over-type-literal": false,
-        "trailing-comma": false,
-        "semicolon": [true, "never"]
+        "trailing-comma": false
     },
     "linterOptions": {
         "exclude": [
@@ -25,5 +26,9 @@
             "coverage",
             "node_modules/**"
         ]
-    }
+    },
+    "rulesDirectory": [
+        "tslint-plugin-prettier",
+        "tslint-eslint-rules"
+      ]
 }
