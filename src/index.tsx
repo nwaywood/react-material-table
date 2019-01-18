@@ -12,7 +12,8 @@ const columns = [
         dataName: "cacti",
         title: "Cacti",
         cellValue: ({ rowData }) => rowData.cacti,
-        sort: true
+        sort: true,
+        colWidthProportion: 2
     },
     {
         dataName: "lifeSupport",
@@ -31,9 +32,11 @@ ReactDOM.render(
     <Table
         columns={columns}
         data={data}
+        header="Boogaloo"
         accordion={accordion}
         onRowSelection={onRowSelection}
         defaultSort={{ dataName: "cacti" }}
+        headerCustomContent={<div>hi</div>}
     />,
     document.getElementById("root")
 )

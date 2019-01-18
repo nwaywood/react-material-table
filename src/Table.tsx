@@ -68,29 +68,38 @@ const ReactMaterialTable = (props: Props) => {
     }
 
     return (
-        <TableDiv className={props.className}>
-            <TableHeaderRowDiv className="table-header-row">
-                {props.columns.map(
-                    renderHeaderColumn(
-                        calcTotalProportions(props.columns),
-                        setSortedColumn,
-                        sortedColumn
+        <MainDiv className={props.className}>
+            {buildTitleRow(props.header, props.headerCustomContent)}
+            <TableDiv className="table-div">
+                <TableHeaderRowDiv className="table-header-row">
+                    {props.columns.map(
+                        renderHeaderColumn(
+                            calcTotalProportions(props.columns),
+                            setSortedColumn,
+                            sortedColumn
+                        )
+                    )}
+                </TableHeaderRowDiv>
+                {sortData(props.data, props.columns, sortedColumn).map(
+                    renderRow(
+                        props.columns,
+                        props.onRowSelection,
+                        props.accordion,
+                        toggleAccordion,
+                        openIndexes
                     )
                 )}
-            </TableHeaderRowDiv>
-            {sortData(props.data, props.columns, sortedColumn).map(
-                renderRow(
-                    props.columns,
-                    props.onRowSelection,
-                    props.accordion,
-                    toggleAccordion,
-                    openIndexes
-                )
-            )}
-        </TableDiv>
+            </TableDiv>
+        </MainDiv>
     )
 }
 
+const buildTitleRow = (header: string, headerCustomContent: JSX.Element) => (
+    <TableTitleRow>
+        <TableTitleDiv>{header}</TableTitleDiv>
+        {headerCustomContent}
+    </TableTitleRow>
+)
 const renderRow = (
     columns: Column[],
     onRowSelection,
@@ -309,15 +318,23 @@ const setCurrentSortColumn = (
 const HoverableArrow = styled.img`
     display: none;
 `
+const MainDiv = styled.div`
+    font-family: "Roboto", "Helvetica", "Arial", "sans-serif";
+`
 const TableDiv = styled.div`
     display: flex;
     flex-flow: column nowrap;
-    font-family: "Roboto", "Helvetica", "Arial", "sans-serif";
+`
+const TableTitleRow = styled.div`
+    display: flex;
+    align-items: center;
 `
 const TableTitleDiv = styled.div`
     display: flex;
     height: 64px;
     align-items: center;
+    font-size: 24px;
+    flex: 1;
 `
 const TableHeaderRowDiv = styled.div`
     display: flex;
