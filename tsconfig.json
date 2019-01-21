@@ -7,7 +7,7 @@
         "declaration": false,
         "noImplicitAny": false,
         "sourceMap": true,
-        "types": ["@emotion/core", "jest"],
+        "types": ["@emotion/core", "@types/jest"],
         "jsx": "react",
         "noLib": false,
         "strict": true,
@@ -15,8 +15,8 @@
     },
     "include": [
         "./src",
-         "custom.d.ts" 
-      ],
+        "custom.d.ts"
+    ],
     "exclude": [
         "node_modules"
     ]
