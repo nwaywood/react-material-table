@@ -2,6 +2,7 @@ import styled from "@emotion/styled"
 import * as React from "react"
 import DownwardIconSvg from "./assets/icons/DownwardIcon.svg"
 import UpwardIconSvg from "./assets/icons/UpwardIcon.svg"
+import LoadingSpinner from "./LoadingSpinner"
 import { isDate } from "./util"
 
 type Props = {
@@ -23,6 +24,7 @@ type Props = {
     sortCallback?: (sort: Sort) => any
     defaultHiddenColumns?: string[]
     headerCustomContent?: JSX.Element
+    noData?: string | JSX.Element
 }
 
 type Column = {
@@ -66,7 +68,39 @@ const ReactMaterialTable = (props: Props) => {
         tmp[index] = !tmp[index]
         setOpenIndexes(tmp)
     }
-
+    const tableBody = () => {
+        if (props.loading) {
+            return (
+                <CenteredDiv>
+                    <LoadingSpinner />
+                </CenteredDiv>
+            )
+        }
+        if (props.data.length === 0) {
+            return <CenteredDiv>{props.noData || "No Data"}</CenteredDiv>
+        }
+        // If the sorting function is provided, it is assumed all sorting is handled outside.
+        if (props.sortCallback) {
+            return props.data.map(
+                renderRow(
+                    props.columns,
+                    props.onRowSelection,
+                    props.accordion,
+                    toggleAccordion,
+                    openIndexes
+                )
+            )
+        }
+        return sortData(props.data, props.columns, sortedColumn).map(
+            renderRow(
+                props.columns,
+                props.onRowSelection,
+                props.accordion,
+                toggleAccordion,
+                openIndexes
+            )
+        )
+    }
     return (
         <MainDiv className={props.className}>
             {buildTitleRow(props.header, props.headerCustomContent)}
@@ -80,15 +114,7 @@ const ReactMaterialTable = (props: Props) => {
                         )
                     )}
                 </TableHeaderRowDiv>
-                {sortData(props.data, props.columns, sortedColumn).map(
-                    renderRow(
-                        props.columns,
-                        props.onRowSelection,
-                        props.accordion,
-                        toggleAccordion,
-                        openIndexes
-                    )
-                )}
+                {tableBody()}
             </TableDiv>
         </MainDiv>
     )
@@ -314,6 +340,12 @@ const setCurrentSortColumn = (
     }
     setSortedColumn(sortObj)
 }
+
+const CenteredDiv = styled.div`
+    display: flex;
+    justify-content: center;
+    padding: 12px;
+`
 
 const HoverableArrow = styled.img`
     display: none;
