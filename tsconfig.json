@@ -7,7 +7,7 @@
         "declaration": false,
         "noImplicitAny": false,
         "sourceMap": true,
-        "types": ["@emotion/core"],
+        "types": ["@emotion/core", "jest"],
         "jsx": "react",
         "noLib": false,
         "strict": true,

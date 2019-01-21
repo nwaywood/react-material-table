@@ -20,7 +20,8 @@
         "quotemark": [true, "double", "jsx-double"],
         "interface-over-type-literal": false,
         "object-literal-sort-keys": false,
-        "trailing-comma": false
+        "trailing-comma": false,
+        "no-implicit-dependencies":[true,"dev"]
     },
     "linterOptions": {
         "exclude": [

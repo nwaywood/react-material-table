@@ -1,0 +1,98 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test Table 1`] = `
+<div
+  class="css-3i2ewu"
+>
+  <div
+    class="css-1povu0j"
+  >
+    <div
+      class="css-1uobdc4"
+    />
+  </div>
+  <div
+    class="table-div css-w95vyd"
+  >
+    <div
+      class="table-header-row css-1obwat8"
+    >
+      <div
+        class="table-header-column css-14ypdif"
+      >
+        Name
+        <img
+          class="css-17jnaqn"
+          id="hoverableArrow"
+          src="default"
+          style="height: 20px;"
+        />
+      </div>
+      <div
+        class="table-header-column css-1l4z1xa"
+      >
+        Cacti
+        <img
+          class="css-17jnaqn"
+          id="hoverableArrow"
+          src="default"
+          style="height: 20px;"
+        />
+      </div>
+      <div
+        class="table-header-column css-14ypdif"
+      >
+        Life Support
+        <img
+          class="css-17jnaqn"
+          id="hoverableArrow"
+          src="default"
+          style="height: 20px;"
+        />
+      </div>
+    </div>
+    <div>
+      <div
+        class="table-row css-cp45cd"
+      >
+        <div
+          class="css-15u08dy"
+        >
+          john
+        </div>
+        <div
+          class="css-ggjmaw"
+        >
+          Austrocylindropuntia
+        </div>
+        <div
+          class="css-15u08dy"
+        >
+          Machiato
+        </div>
+      </div>
+    </div>
+    <div>
+      <div
+        class="table-row css-cp45cd"
+      >
+        <div
+          class="css-15u08dy"
+        >
+          nick
+        </div>
+        <div
+          class="css-ggjmaw"
+        >
+          Stenocactus
+        </div>
+        <div
+          class="css-15u08dy"
+        >
+          Latte
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
