@@ -9,6 +9,7 @@
         "sourceMap": true,
         "types": ["@emotion/core", "@types/jest"],
         "jsx": "react",
+        "outDir": "./dist",
         "noLib": false,
         "strict": true,
         "suppressImplicitAnyIndexErrors": true
