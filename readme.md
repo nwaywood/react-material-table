@@ -2,19 +2,16 @@
 
 ## Contents
 
--   Install
--   Usage
--   Why another table?
--   API
--   Styling
+-   [Installation](#installation)
+-   [Usage](#usage)
+-   [Why another table?](#why-another-table?)
+-   [Features](#features)
+-   [API](#api)
+-   [Styling](#styling)
 
-## Install
+## Installation
 
 `npm install --save react-material-table`
-
-Then import the table into your component,
-
-`import Table from "react-material-table"`
 
 ## Usage
 
@@ -60,7 +57,9 @@ During our research searching for a table component we found two different types
 -   Full featured, "heavyweight" tables, which could functionally do everything we required but with complex API's that weren't very user friendly
 -   Or comparatively basic components with nice, simple API's but lack all the features we required
 
-This table is definitely more on the basic side of the spectrum, but contains all the features that we typically require (which is hopefully the set of features you need as well!):
+This table is definitely more on the basic side of the spectrum, but contains all the features that we typically require (which is hopefully the set of features you need as well!)
+
+## Features
 
 -   Click handlers for rows
 -   Accordions
@@ -77,8 +76,8 @@ This table is definitely more on the basic side of the spectrum, but contains al
 
 | Name                 | Type                                                  | Default             | Description                                                                                                                                                       |
 | -------------------- | ----------------------------------------------------- | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| data                 | Array<Object>                                         |                     | Array of data to be populated in the table                                                                                                                        |
-| columns              | Array<Column>                                         |                     | Specify the details of the columns in the table (see column object structure below)                                                                               |
+| data                 | Array\<Object>                                        |                     | Array of data to be populated in the table                                                                                                                        |
+| columns              | Array\<Column>                                        |                     | Specify the details of the columns in the table (see column object structure below)                                                                               |
 | onRowSelection?      | ({rowData: Object, toggleAccordion: Function })       | null                | Function to be called when a row is clicked                                                                                                                       |
 | accordion?           | (rowData: Object) => Element                          | null                | Function that returns what to render when a row accordion is opened                                                                                               |
 | className?           | string                                                | ""                  | Entrypoint for overriding styles, will work with any styling solution that supports nested selectors, `CSS-in-JS`, `less`, `SASS` etc (see below for class names) |
@@ -90,6 +89,40 @@ This table is definitely more on the basic side of the spectrum, but contains al
 | noData?              | Element                                               | string \| "No Data" |                                                                                                                                                                   |
 
 **Column object:**
-**Internal class names:**
+
+| Name                | Type                                                                                  | Default | Description                                                                                                                                                                                  |
+| ------------------- | ------------------------------------------------------------------------------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| title               | string                                                                                |         | The column header title                                                                                                                                                                      |
+| dataName            | string                                                                                |         | dataName is the name of the field in `data` to display in this column, this field is also used for sorting and therefore is required even if `cellValue` is provided                         |
+| cellValue?          | ({rowData: Object, toggleAccordion: Function, isOpen: boolean }) => string \| Element | null    | cellValue is a render prop that lets you customise what is rendered for the data in a specific column                                                                                        |
+| colWidthProportion? | number                                                                                | 1       | Sizing the columns of the table is done with colWidthProportion                                                                                                                              |
+| sort?               | boolean \| (a: Object, b: Object) => number                                           | null    | Determines whether the column is sortable or not, if a boolean is supplied then the column is sorted alphanumerically. Alternatively, a custom sort comparator function can also be supplied |
 
 ## Styling
+
+All of the key UI elements of the table have class names to allow for custom styling. The complete list of class names are:
+
+-   `table-div`
+-   `table-title-row`
+-   `table-title-div`
+-   `table-header-row`
+-   `table-header-cell`
+-   `table-row`
+-   `table-cell`
+
+and applying styling at the root level
+
+For example, using the emotion [css prop](https://emotion.sh/docs/css-prop):
+
+```javascript
+const tableStyle = {
+    ".table-div": {
+        backgroundColor: "grey"
+    },
+    ".table-cell": {
+        padding: "0px"
+    }
+}
+
+const MyTable = () => <Table data={data} columns={columns} css={tableStyle} />
+```
