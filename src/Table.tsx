@@ -17,12 +17,11 @@ type Props = {
     onRowSelection?: (o: { rowData: object; toggleAccordion: () => any }) => any
     // entrypoint for overriding styles, will work with any styling solution that supports nested selectors
     className?: string
-    header?: string
     loading?: boolean
     defaultSort?: Sort
     // sortCallback can be supplied if you want complete control of the sorting (e.g. for remote sorting)
     sortCallback?: (sort: Sort) => any
-    defaultHiddenColumns?: string[]
+    header?: string
     headerCustomContent?: JSX.Element
     noData?: string | JSX.Element
 }
