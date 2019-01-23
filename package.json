@@ -4,11 +4,18 @@
     "description": "Table component for React with a material-ui feel",
     "main": "dist/index.js",
     "module": "dist/index.es.js",
+    "types": "dist/index.d.ts",
     "scripts": {
         "test": "jest",
         "clean": "rm -rf ./dist && mkdir dist",
         "build": "npm run clean && cross-env NODE_ENV=production rollup --config ",
         "format": "tslint --fix \"src/**.{ts,tsx}\" --project tsconfig.json",
+        "prepare" : "npm run build",
+        "prepublishOnly" : "npm test && npm run lint",
+        "preversion" : "npm run lint",
+        "version" : "npm run format && git add -A src",
+        "postversion" : "git push && git push --tags",
+        "lint": "tslint --project tsconfig.json",
         "tslint-check": "tslint-config-prettier-check ./tslint.json",
         "updateJest": "jest --updateSnapshot",
         "watch": "cross-env NODE_ENV=development rollup -cw"
