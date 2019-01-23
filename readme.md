@@ -4,7 +4,7 @@
 
 -   [Installation](#installation)
 -   [Usage](#usage)
--   [Why another table?](#why-another-table?)
+-   [Why another table?](#why-another-table)
 -   [Features](#features)
 -   [API](#api)
 -   [Styling](#styling)
@@ -86,7 +86,7 @@ This table is definitely more on the basic side of the spectrum, but contains al
 | sortCallback?        | ({dataName: string, order?: "asc" \| "desc" }) => any | null                | Should only be used if you want complete control of sorting (e.g. for remote sorting). For local sorting use the sort property in `Column`                        |
 | header?              | string                                                | ""                  | Displays header for table                                                                                                                                         |
 | headerCustomContent? | Element                                               | null                | Custom JSX that will be rendered in the header row, useful for table actions like filter                                                                          |
-| noData?              | Element                                               | string \| "No Data" |                                                                                                                                                                   |
+| noData?              | Element                                               | string \| "No Data" | Content to be rendered in the table body when `data` is empty                                                                                                     |
 
 **Column object:**
 
@@ -112,9 +112,11 @@ All of the key UI elements of the table have class names to allow for custom sty
 
 and applying styling at the root level
 
-For example, using the emotion [css prop](https://emotion.sh/docs/css-prop):
+For example, using the [emotion](https://emotion.sh/) css function:
 
 ```javascript
+import { css } from "emotion"
+
 const tableStyle = {
     ".table-div": {
         backgroundColor: "grey"
@@ -124,5 +126,5 @@ const tableStyle = {
     }
 }
 
-const MyTable = () => <Table data={data} columns={columns} css={tableStyle} />
+const MyTable = () => <Table data={data} columns={columns} className={css(tableStyle)} />
 ```
