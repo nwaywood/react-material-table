@@ -5,10 +5,10 @@ exports[`Test Table 1`] = `
   class="css-3i2ewu"
 >
   <div
-    class="css-1povu0j"
+    class="table-title-row css-1povu0j"
   >
     <div
-      class="css-1uobdc4"
+      class="table-title-div css-1uobdc4"
     />
   </div>
   <div
@@ -18,7 +18,7 @@ exports[`Test Table 1`] = `
       class="table-header-row css-1obwat8"
     >
       <div
-        class="table-header-column css-14ypdif"
+        class="table-header-cell css-14ypdif"
       >
         Name
         <img
@@ -29,7 +29,7 @@ exports[`Test Table 1`] = `
         />
       </div>
       <div
-        class="table-header-column css-1l4z1xa"
+        class="table-header-cell css-1l4z1xa"
       >
         Cacti
         <img
@@ -40,7 +40,7 @@ exports[`Test Table 1`] = `
         />
       </div>
       <div
-        class="table-header-column css-14ypdif"
+        class="table-header-cell css-14ypdif"
       >
         Life Support
         <img
@@ -56,17 +56,17 @@ exports[`Test Table 1`] = `
         class="table-row css-cp45cd"
       >
         <div
-          class="css-15u08dy"
+          class="table-cell css-15u08dy"
         >
           john
         </div>
         <div
-          class="css-ggjmaw"
+          class="table-cell css-ggjmaw"
         >
           Austrocylindropuntia
         </div>
         <div
-          class="css-15u08dy"
+          class="table-cell css-15u08dy"
         >
           Machiato
         </div>
@@ -77,17 +77,17 @@ exports[`Test Table 1`] = `
         class="table-row css-cp45cd"
       >
         <div
-          class="css-15u08dy"
+          class="table-cell css-15u08dy"
         >
           nick
         </div>
         <div
-          class="css-ggjmaw"
+          class="table-cell css-ggjmaw"
         >
           Stenocactus
         </div>
         <div
-          class="css-15u08dy"
+          class="table-cell css-15u08dy"
         >
           Latte
         </div>
