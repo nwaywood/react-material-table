@@ -6,7 +6,7 @@ import {
     render,
     waitForElement
 } from "react-testing-library"
-import Table from "./Table"
+import Table from "."
 const columns = [
     {
         dataName: "name",

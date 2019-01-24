@@ -11,14 +11,17 @@ import babel from 'rollup-plugin-babel'
 import { sizeSnapshot } from 'rollup-plugin-size-snapshot'
 import svg from 'rollup-plugin-svg'
 import replace from 'rollup-plugin-replace'
-import html from 'rollup-plugin-fill-html'
+// import html from 'rollup-plugin-fill-html'
 import pkg from './package.json'
 const dev = 'development'
 const prod = 'production'
 const input = './src/index.tsx'
 const replacements = [{ original: 'lodash', replacement: 'lodash-es' }]
 const nodeEnv = parseNodeEnv(process.env.NODE_ENV)
-
+const external =  [
+    ...Object.keys(pkg.dependencies || {}),
+    ...Object.keys(pkg.peerDependencies || {}),
+]
 const babelOptions = {
     exclude: 'node_modules/**',
     presets: ['@babel/env', '@babel/react', '@babel/typescript'],
@@ -42,8 +45,8 @@ const plugins = [
         'process.env.NODE_ENV': JSON.stringify('production'),
     }),
     resolve({
-        extensions: ['.js', '.jsx', '.ts', '.tsx'],
-    }),
+        modulesOnly: true,
+      }),
     commonjs({
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
         include: ['node_modules/**'],
@@ -72,10 +75,10 @@ const plugins = [
         importHelpers: true,
         tsconfig: 'tsconfig.json',
     }),
-    html({
-        template: 'src/index.html',
-        filename: 'index.html',
-    }),
+    // html({
+    //     template: 'src/index.html',
+    //     filename: 'index.html',
+    // }),
     babel(babelOptions),
     svg(),
 
@@ -98,34 +101,36 @@ const buildUmd = ({ env }) => ({
     input,
     output: [
         {
-            file: pkg.main,
-            format: 'cjs',
+            file: `./dist/react-material-table.umd.${env}.js`,
+            name:"react-material-table",
+            format: 'umd',
             sourcemap: true,
         },
-        {
-            file: pkg.module,
-            format: 'es',
-            sourcemap: true,
-        },
+
     ],
     plugins,
-    external: [
-        ...Object.keys(pkg.dependencies || {}),
-        ...Object.keys(pkg.peerDependencies || {}),
-    ],
+    external
 })
+const buildCjs = ({ env }) => ({
+    input,
+    output: {
+      file: `./dist/${pkg.name}.cjs.${env}.js`,
+      format: 'cjs',
+      sourcemap: true,
+    },
+    plugins,
+    external
+  });
+  
 
 export default [
-    // buildUmd({ env: 'production' }),
-    // buildUmd({ env: 'development' }),
+    buildUmd({ env: 'production' }),
+    buildUmd({ env: 'development' }),
+    buildCjs({ env: 'production' }),
+    buildCjs({ env: 'development' }),
     {
         input,
         output: [
-            {
-                file: pkg.main,
-                format: 'cjs',
-                sourcemap: true,
-            },
             {
                 file: pkg.module,
                 format: 'es',

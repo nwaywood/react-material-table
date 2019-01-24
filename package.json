@@ -5,16 +5,19 @@
     "main": "dist/index.js",
     "module": "dist/index.es.js",
     "types": "dist/index.d.ts",
+    "files": [
+        "dist"
+    ],
     "scripts": {
         "test": "jest",
         "clean": "rm -rf ./dist && mkdir dist",
-        "build": "npm run clean && cross-env NODE_ENV=production rollup --config ",
+        "build": "npm run clean && cross-env NODE_ENV=production rollup --config && cp ./index.js ./dist/index.js",
         "format": "tslint --fix \"src/**.{ts,tsx}\" --project tsconfig.json",
-        "prepare" : "npm run build",
-        "prepublishOnly" : "npm test && npm run lint",
-        "preversion" : "npm run lint",
-        "version" : "npm run format && git add -A src",
-        "postversion" : "git push && git push --tags",
+        "prepare": "npm run build",
+        "prepublishOnly": "npm test && npm run lint",
+        "preversion": "npm run lint",
+        "version": "npm run format && git add -A src",
+        "postversion": "git push && git push --tags",
         "lint": "tslint --project tsconfig.json",
         "tslint-check": "tslint-config-prettier-check ./tslint.json",
         "updateJest": "jest --updateSnapshot",
@@ -43,8 +46,8 @@
     "dependencies": {
         "@emotion/core": "^10.0.6",
         "@emotion/styled": "^10.0.6",
-        "react": "^16.8.0-alpha.0",
-        "react-dom": "^16.8.0-alpha.0"
+        "react": "16.8.0-alpha.0",
+        "react-dom": "16.8.0-alpha.0"
     },
     "devDependencies": {
         "@babel/core": "^7.2.2",
