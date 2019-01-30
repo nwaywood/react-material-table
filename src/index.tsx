@@ -136,6 +136,8 @@ const renderRow = (
             <TableRowDiv
                 className="table-row"
                 clickable={!!onRowSelection}
+                // only add tabindex if user has supplied a function
+                tabIndex={onRowSelection ? 0 : undefined}
                 // only add onClick listener if user has supplied a function
                 onClick={
                     onRowSelection
@@ -213,6 +215,10 @@ const renderHeaderColumn = (
             totalWidthProportions={totalWidthProportions}
             colWidthProportion={item.colWidthProportion}
             className="table-header-cell"
+            // only add tabindex if user has supplied a sort function
+            tabIndex={item.sort ? 0 : undefined}
+            // only add onClick listener if user has supplied a sort function
+            // i.e. if the column is sortable
             onClick={
                 item.sort
                     ? () =>

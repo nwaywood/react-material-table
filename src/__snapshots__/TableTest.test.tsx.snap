@@ -19,6 +19,7 @@ exports[`Test Table 1`] = `
     >
       <div
         class="table-header-cell css-14ypdif"
+        tabindex="0"
       >
         Name
         <svg
@@ -41,6 +42,7 @@ exports[`Test Table 1`] = `
       </div>
       <div
         class="table-header-cell css-1l4z1xa"
+        tabindex="0"
       >
         Cacti
         <svg
@@ -63,6 +65,7 @@ exports[`Test Table 1`] = `
       </div>
       <div
         class="table-header-cell css-14ypdif"
+        tabindex="0"
       >
         Life Support
         <svg
