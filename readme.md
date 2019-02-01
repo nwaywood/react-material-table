@@ -48,6 +48,8 @@ const columns = [
 const MyUserTable = () => <Table data={data} columns={columns} />
 ```
 
+For a more advanced example, refer to the codesandbox, https://codesandbox.io/s/kx3wzqk2m5
+
 ## Why another table?
 
 If you google `react table` looking for a table component to include in your react application, you will find a lot of options. So why did we bother creating another one?
