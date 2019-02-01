@@ -1,7 +1,22 @@
 {
     "name": "react-material-table",
     "version": "0.0.1",
+    "author": "Nick Waywood, Antony Targett",
+    "license": "MIT",
     "description": "Table component for React with a material-ui feel",
+    "contributors": [{
+        "name": "Nick Waywood",
+        "email": "n.waywood@gmail.com",
+        "url": "https://www.github.com/nwaywood"
+    }, {
+        "name": "Antony Targett",
+        "email": "antony.targett@gmail.com"
+    }],
+    "keywords": [
+        "react",
+        "material design",
+        "table"
+    ],
     "main": "dist/index.js",
     "module": "dist/index.es.js",
     "types": "dist/index.d.ts",
@@ -36,13 +51,8 @@
     },
     "repository": {
         "type": "git",
-        "url": "git@github.ibm.com:nwaywood/react-material-table.git"
+        "url": "git@github.com:nwaywood/react-material-table.git"
     },
-    "keywords": [
-        "react"
-    ],
-    "author": "Nick Waywood, Antony Targett",
-    "license": "ISC",
     "dependencies": {
         "@emotion/core": "^10.0.6",
         "@emotion/styled": "^10.0.6",
