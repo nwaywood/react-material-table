@@ -1,5 +1,7 @@
 # react-material-table
 
+[https://img.shields.io/npm/v/react-material-table/latest.svg?style=flat](https://www.npmjs.com/package/react-material-table)
+
 ## Contents
 
 -   [Installation](#installation)
