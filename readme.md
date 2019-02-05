@@ -67,7 +67,7 @@ This table is definitely more on the basic side of the spectrum, but contains al
 
 -   Click handlers for rows
 -   Accordions
--   Local sorting (alphanumeric by default or can supply custom comparator function)
+-   Local sorting (alphanumeric by default if a date object is supplied it will compare by date. A custom comparator function can also be supplied)
 -   Remote sorting (via use of `sortCallback`)
 -   Optional [render props](https://reactjs.org/docs/render-props.html) for cell values
 -   "No Data" and "Loading" states are handled
