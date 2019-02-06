@@ -108,7 +108,8 @@ const ReactMaterialTable = (props: Props) => {
                         renderHeaderColumn(
                             calcTotalProportions(props.columns),
                             setSortedColumn,
-                            sortedColumn
+                            sortedColumn,
+                            props.sortCallback
                         )
                     )}
                 </TableHeaderRowDiv>
@@ -204,7 +205,8 @@ const renderRowColumn = (
 const renderHeaderColumn = (
     totalWidthProportions: number,
     setSortedColumn: (s: Sort) => void,
-    sortedColumn?: Sort
+    sortedColumn?: Sort,
+    sortCallback?: (s: Sort) => any
 ) => (item: Column, index: number) => {
     const isCurrentColumn = sortedColumn
         ? item.dataName === sortedColumn.dataName
@@ -226,7 +228,8 @@ const renderHeaderColumn = (
                               isCurrentColumn,
                               item,
                               setSortedColumn,
-                              sortedColumn
+                              sortedColumn,
+                              sortCallback
                           )
                     : () => false
             }
@@ -324,7 +327,8 @@ const setCurrentSortColumn = (
     isCurrentColumn: boolean,
     column: Column,
     setSortedColumn: (s: Sort) => void,
-    sortedColumn?: Sort
+    sortedColumn?: Sort,
+    sortCallback?: (s: Sort) => any
 ) => {
     const sortObj = { dataName: column.dataName, order: "asc" }
     if (column.sort && isCurrentColumn) {
@@ -338,6 +342,10 @@ const setCurrentSortColumn = (
         }
     }
     setSortedColumn(sortObj)
+
+    if (sortCallback) {
+        sortCallback(sortObj)
+    }
 }
 
 const CenteredDiv = styled.div`
