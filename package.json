@@ -1,17 +1,20 @@
 {
     "name": "react-material-table",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "author": "Nick Waywood, Antony Targett",
     "license": "MIT",
     "description": "Table component for React with a material-ui feel",
-    "contributors": [{
-        "name": "Nick Waywood",
-        "email": "n.waywood@gmail.com",
-        "url": "https://www.github.com/nwaywood"
-    }, {
-        "name": "Antony Targett",
-        "email": "antony.targett@gmail.com"
-    }],
+    "contributors": [
+        {
+            "name": "Nick Waywood",
+            "email": "n.waywood@gmail.com",
+            "url": "https://www.github.com/nwaywood"
+        },
+        {
+            "name": "Antony Targett",
+            "email": "antony.targett@gmail.com"
+        }
+    ],
     "keywords": [
         "react",
         "material design",
@@ -25,8 +28,8 @@
     ],
     "scripts": {
         "test": "jest",
-        "clean": "rm -rf ./dist && mkdir dist",
-        "build": "npm run clean && cross-env NODE_ENV=production rollup --config && cp ./index.js ./dist/index.js",
+        "clean": "rm -rf ./dist && mkdir dist && rm -rf ./compiled",
+        "build": "npm run clean && cross-env NODE_ENV=production tsc && rollup --config && cp ./index.js ./dist/index.js && rm -rf ./compiled",
         "format": "tslint --fix \"src/**.{ts,tsx}\" --project tsconfig.json",
         "prepare": "npm run build",
         "prepublishOnly": "npm test && npm run lint",
@@ -58,8 +61,8 @@
         "@emotion/styled": "^10.0.6"
     },
     "peerDependencies": {
-        "react": ">=16.8.0-alpha.0",
-        "react-dom": ">=16.8.0-alpha.0"
+        "react": ">=16.8.0",
+        "react-dom": ">=16.8.0"
     },
     "devDependencies": {
         "@babel/core": "^7.2.2",
@@ -79,8 +82,8 @@
         "jest": "^23.6.0",
         "lint-staged": "^8.1.0",
         "prettier": "^1.15.3",
-        "react": ">=16.8.0-alpha.0",
-        "react-dom": ">=16.8.0-alpha.0",
+        "react": ">=16.8.0",
+        "react-dom": ">=16.8.0",
         "react-testing-library": "^5.4.4",
         "rollup": "^1.1.1",
         "rollup-plugin-babel": "^4.3.2",
