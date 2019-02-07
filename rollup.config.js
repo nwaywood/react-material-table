@@ -1,27 +1,20 @@
-// rollup.config.js
-
 import typescript from 'typescript'
 import typescriptPlugin from 'rollup-plugin-typescript'
 import commonjs from 'rollup-plugin-commonjs'
 import sourceMaps from 'rollup-plugin-sourcemaps'
 import resolve from 'rollup-plugin-node-resolve'
-import serve from 'rollup-plugin-serve'
-import livereload from 'rollup-plugin-livereload'
 import babel from 'rollup-plugin-babel'
 import { sizeSnapshot } from 'rollup-plugin-size-snapshot'
 import svg from 'rollup-plugin-svg'
 import replace from 'rollup-plugin-replace'
-// import html from 'rollup-plugin-fill-html'
 import pkg from './package.json'
 const dev = 'development'
 const prod = 'production'
 const input = './src/index.tsx'
 const replacements = [{ original: 'lodash', replacement: 'lodash-es' }]
 const nodeEnv = parseNodeEnv(process.env.NODE_ENV)
-const external =  [
-    ...Object.keys(pkg.dependencies || {}),
-    ...Object.keys(pkg.peerDependencies || {}),
-]
+const external = id => !id.startsWith('.') && !id.startsWith('/');
+
 const babelOptions = {
     exclude: 'node_modules/**',
     presets: ['@babel/env', '@babel/react', '@babel/typescript'],
@@ -44,9 +37,6 @@ const plugins = [
     replace({
         'process.env.NODE_ENV': JSON.stringify('production'),
     }),
-    resolve({
-        modulesOnly: true,
-      }),
     commonjs({
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
         include: ['node_modules/**'],
@@ -75,28 +65,11 @@ const plugins = [
         importHelpers: true,
         tsconfig: 'tsconfig.json',
     }),
-    // html({
-    //     template: 'src/index.html',
-    //     filename: 'index.html',
-    // }),
     babel(babelOptions),
-    svg(),
-
-    sourceMaps(),
+    svg()
 ]
 
 
-if (nodeEnv === dev) {
-    // For playing around with just frontend code the serve plugin is pretty nice.
-    // We removed it when we started doing actual backend work.
-    plugins.push(
-        serve('dist', {
-            port: 3000,
-            historyApiFallback: true,
-        })
-    )
-    plugins.push(livereload())
-}
 const buildUmd = ({ env }) => ({
     input,
     output: [
@@ -104,9 +77,13 @@ const buildUmd = ({ env }) => ({
             file: `./dist/react-material-table.umd.${env}.js`,
             name:"react-material-table",
             format: 'umd',
-            sourcemap: true,
+            globals: {
+                react: 'React',
+                "@emotion/styled": "styled",
+                "@emotion/core": "core",
+                tslib: "tslib_1"
+              },
         },
-
     ],
     plugins,
     external
@@ -115,8 +92,7 @@ const buildCjs = ({ env }) => ({
     input,
     output: {
       file: `./dist/${pkg.name}.cjs.${env}.js`,
-      format: 'cjs',
-      sourcemap: true,
+      format: 'cjs'
     },
     plugins,
     external
@@ -130,13 +106,13 @@ export default [
     buildCjs({ env: 'development' }),
     {
         input,
+        external,
         output: [
             {
                 file: pkg.module,
-                format: 'es',
-                sourcemap: true,
+                format: 'es'
             },
         ],
-        plugins,
-    },
+        plugins
+    }
 ]
