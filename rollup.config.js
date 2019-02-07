@@ -80,7 +80,8 @@ const buildUmd = ({ env }) => ({
             globals: {
                 react: 'React',
                 "@emotion/styled": "styled",
-                "@emotion/core": "core"
+                "@emotion/core": "core",
+                tslib: "tslib_1"
               },
         },
     ],
