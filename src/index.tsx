@@ -83,13 +83,17 @@ const renderRow = (
     toggleAccordion,
     openIndexes: boolean[]
 ) => {
+    // Will render as a button to let a screenreader know that it is clickable when an onRowSelection is provided
+    const DynamicTableRow = TableRowDiv.withComponent(
+        !!onRowSelection ? "button" : "div"
+    )
     return (rowItem: object, index: number) => (
         <div key={index}>
-            <TableRowDiv
+            <DynamicTableRow
                 className="table-row"
                 clickable={!!onRowSelection}
-                // only add tabindex if user has supplied a function
-                tabIndex={onRowSelection ? 0 : undefined}
+                // Will always have tabIndex to allow screenreaders to navigate through the table
+                tabIndex={0}
                 // only add onClick listener if user has supplied a function
                 onClick={
                     onRowSelection
@@ -110,7 +114,7 @@ const renderRow = (
                         toggleAccordion
                     )
                 )}
-            </TableRowDiv>
+            </DynamicTableRow>
             {openIndexes[index] && accordion ? accordion(rowItem) : null}
         </div>
     )
@@ -368,7 +372,12 @@ const TableHeaderItemDiv = styled.button<{
 const TableRowDiv = styled.div<{ clickable: boolean }>`
     display: flex;
     flex-flow: row nowrap;
+    background-color: inherit;
+    color: inherit;
     cursor: ${props => (props.clickable ? "pointer" : "cursor")};
+    outline-color: inherit;
+    width: 100%;
+    border: none;
     border-bottom: 1px solid #e0e0e0;
     height: 48px;
     align-items: center;
