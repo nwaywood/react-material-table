@@ -17,9 +17,8 @@ exports[`Test Table 1`] = `
     <div
       class="table-header-row css-1obwat8"
     >
-      <div
-        class="table-header-cell css-14ypdif"
-        tabindex="0"
+      <button
+        class="table-header-cell css-1kg6jq8"
       >
         Name
         <svg
@@ -39,10 +38,9 @@ exports[`Test Table 1`] = `
             d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"
           />
         </svg>
-      </div>
-      <div
-        class="table-header-cell css-1l4z1xa"
-        tabindex="0"
+      </button>
+      <button
+        class="table-header-cell css-45wpjm"
       >
         Cacti
         <svg
@@ -62,10 +60,9 @@ exports[`Test Table 1`] = `
             d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"
           />
         </svg>
-      </div>
-      <div
-        class="table-header-cell css-14ypdif"
-        tabindex="0"
+      </button>
+      <button
+        class="table-header-cell css-1kg6jq8"
       >
         Life Support
         <svg
@@ -85,7 +82,7 @@ exports[`Test Table 1`] = `
             d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"
           />
         </svg>
-      </div>
+      </button>
     </div>
     <div>
       <div
