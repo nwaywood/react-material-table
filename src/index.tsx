@@ -1,6 +1,5 @@
 import styled from "@emotion/styled"
 import * as React from "react"
-import DownwardIcon from "./DownwardIcon"
 import LoadingSpinner from "./LoadingSpinner"
 import { Column, Props, Sort } from "./types"
 import UpwardIcon from "./UpwardIcon"
@@ -169,8 +168,6 @@ const renderHeaderColumn = (
             totalWidthProportions={totalWidthProportions}
             colWidthProportion={item.colWidthProportion}
             className="table-header-cell"
-            // only add tabindex if user has supplied a sort function
-            tabIndex={item.sort ? 0 : undefined}
             // only add onClick listener if user has supplied a sort function
             // i.e. if the column is sortable
             onClick={
@@ -264,11 +261,8 @@ const calcTotalProportions = (columns: Column[]): number =>
         0
     )
 const renderArrow = (sortable: boolean, isCurrentColumn: boolean, order?) => {
-    if (isCurrentColumn && (!order || order === "asc")) {
-        return <UpwardIcon height="20px" />
-    }
-    if (isCurrentColumn && order === "desc") {
-        return <DownwardIcon height="20px" />
+    if (isCurrentColumn) {
+        return <ArrowIcon order={order} height="20px" />
     }
     if (sortable) {
         return <HoverableArrow height="20px" id="hoverableArrow" />
@@ -299,6 +293,14 @@ const setCurrentSortColumn = (
         sortCallback(sortObj)
     }
 }
+
+const ArrowIcon = styled(UpwardIcon)<{ order: string }>`
+    transition: transform 0.5s;
+    transform: ${props =>
+        props.order === "asc" || !props.order
+            ? "rotate(0deg)"
+            : "rotate(180deg)"};
+`
 
 const CenteredDiv = styled.div`
     display: flex;
@@ -338,14 +340,19 @@ const TableHeaderRowDiv = styled.div`
     font-weight: bold;
     letter-spacing: 0.1;
 `
-const TableHeaderItemDiv = styled.div<{
+const TableHeaderItemDiv = styled.button<{
     colWidthProportion?: number
     totalWidthProportions: number
     onClick: any
     clickable: boolean
 }>`
     display: flex;
+    border: none;
+    background-color: inherit;
+    color: inherit;
     align-items: center;
+    outline-color: inherit;
+    cursor: ${props => (props.clickable ? "pointer" : "cursor")};
     width: ${props =>
         `${((props.colWidthProportion || 1) / props.totalWidthProportions) *
             100}%`};
@@ -353,7 +360,6 @@ const TableHeaderItemDiv = styled.div<{
         display: inline;
     }
     padding: 0px 10px;
-    cursor: ${props => (props.clickable ? "pointer" : "cursor")};
     /* https://davidwalsh.name/css-ellipsis */
     text-overflow: ellipsis;
     overflow: hidden;
