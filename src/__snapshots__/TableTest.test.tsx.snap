@@ -86,7 +86,8 @@ exports[`Test Table 1`] = `
     </div>
     <div>
       <div
-        class="table-row css-cp45cd"
+        class="table-row css-16p1vce"
+        tabindex="0"
       >
         <div
           class="table-cell css-15u08dy"
@@ -107,7 +108,8 @@ exports[`Test Table 1`] = `
     </div>
     <div>
       <div
-        class="table-row css-cp45cd"
+        class="table-row css-16p1vce"
+        tabindex="0"
       >
         <div
           class="table-cell css-15u08dy"
