@@ -16,7 +16,9 @@ export type Props = {
     sortCallback?: (sort: Sort) => any
     header?: string
     headerCustomContent?: JSX.Element
+    // what to render when data is empty
     noData?: string | JSX.Element
+    defaultMinColWidth?: number
 }
 
 export type Column = {
@@ -36,6 +38,8 @@ export type Column = {
     // sizing the columns of the table is done with colWidthProportion, under the hood it just applies
     // the flex property with the specified value, if not supplied the default is 1
     colWidthProportion?: number
+    // minWidth for the current column, only applies when colWidthProportion evaluates to a width less than minWidth
+    minWidth?: number
     // sort determines whether the column is sortable or not, if a boolean is supplied then the column is sorted
     // alphanumerically. A custom sort comparator function can also be supplied
     sort?: boolean | ((a: object, b: object) => number)

@@ -36,7 +36,8 @@ const ReactMaterialTable = (props: Props) => {
                     props.onRowSelection,
                     props.accordion,
                     toggleAccordion,
-                    openIndexes
+                    openIndexes,
+                    props.defaultMinColWidth
                 )
             )
         }
@@ -46,7 +47,8 @@ const ReactMaterialTable = (props: Props) => {
                 props.onRowSelection,
                 props.accordion,
                 toggleAccordion,
-                openIndexes
+                openIndexes,
+                props.defaultMinColWidth
             )
         )
     }
@@ -60,7 +62,8 @@ const ReactMaterialTable = (props: Props) => {
                             calcTotalProportions(props.columns),
                             setSortedColumn,
                             sortedColumn,
-                            props.sortCallback
+                            props.sortCallback,
+                            props.defaultMinColWidth
                         )
                     )}
                 </TableHeaderRowDiv>
@@ -81,7 +84,8 @@ const renderRow = (
     onRowSelection,
     accordion,
     toggleAccordion,
-    openIndexes: boolean[]
+    openIndexes: boolean[],
+    defaultMinColWidth?: number
 ) => {
     // Will render as a button to let a screenreader know that it is clickable when an onRowSelection is provided
     const DynamicTableRow = TableRowDiv.withComponent(
@@ -111,7 +115,8 @@ const renderRow = (
                         calcTotalProportions(columns),
                         index,
                         openIndexes,
-                        toggleAccordion
+                        toggleAccordion,
+                        defaultMinColWidth
                     )
                 )}
             </DynamicTableRow>
@@ -125,7 +130,8 @@ const renderRowColumn = (
     totalWidthProportions: number,
     index: number,
     openIndexes: boolean[],
-    toggleAccordion
+    toggleAccordion,
+    defaultMinColWidth?: number
 ) => (columnItem: Column, columnIndex: number) => {
     let tmp
     if (columnItem.cellValue) {
@@ -151,6 +157,7 @@ const renderRowColumn = (
             className="table-cell"
             totalWidthProportions={totalWidthProportions}
             colWidthProportion={columnItem.colWidthProportion}
+            minWidth={columnItem.minWidth || defaultMinColWidth || null}
         >
             {tmp}
         </TableRowItemDiv>
@@ -161,7 +168,8 @@ const renderHeaderColumn = (
     totalWidthProportions: number,
     setSortedColumn: (s: Sort) => void,
     sortedColumn?: Sort,
-    sortCallback?: (sort: Sort) => any
+    sortCallback?: (sort: Sort) => any,
+    defaultMinColWidth?: number
 ) => (item: Column, index: number) => {
     const isCurrentColumn = sortedColumn
         ? item.dataName === sortedColumn.dataName
@@ -171,6 +179,7 @@ const renderHeaderColumn = (
             key={index}
             totalWidthProportions={totalWidthProportions}
             colWidthProportion={item.colWidthProportion}
+            minWidth={item.minWidth || defaultMinColWidth || null}
             className="table-header-cell"
             // only add onClick listener if user has supplied a sort function
             // i.e. if the column is sortable
@@ -321,6 +330,7 @@ const MainDiv = styled.div`
 const TableDiv = styled.div`
     display: flex;
     flex-flow: column nowrap;
+    overflow-x: auto;
 `
 const TableTitleRow = styled.div`
     display: flex;
@@ -349,6 +359,7 @@ const TableHeaderItemDiv = styled.button<{
     totalWidthProportions: number
     onClick: any
     clickable: boolean
+    minWidth: number | null
 }>`
     display: flex;
     border: none;
@@ -360,6 +371,7 @@ const TableHeaderItemDiv = styled.button<{
     width: ${props =>
         `${((props.colWidthProportion || 1) / props.totalWidthProportions) *
             100}%`};
+    min-width: ${props => (props.minWidth ? `${props.minWidth}px` : null)};
     &:hover > #hoverableArrow {
         display: inline;
     }
@@ -388,10 +400,12 @@ const TableRowDiv = styled.div<{ clickable: boolean }>`
 const TableRowItemDiv = styled.div<{
     colWidthProportion?: number
     totalWidthProportions: number
+    minWidth: number | null
 }>`
     width: ${props =>
         `${((props.colWidthProportion || 1) / props.totalWidthProportions) *
             100}%`};
+    min-width: ${props => (props.minWidth ? `${props.minWidth}px` : null)};
     padding: 0px 10px;
     /* https://davidwalsh.name/css-ellipsis */
     text-overflow: ellipsis;
