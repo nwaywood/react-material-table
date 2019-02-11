@@ -91,6 +91,7 @@ This table is definitely more on the basic side of the spectrum, but contains al
 | header?              | string                                                | ""                  | Displays header for table                                                                                                                                         |
 | headerCustomContent? | Element                                               | null                | Custom JSX that will be rendered in the header row, useful for table actions like filter                                                                          |
 | noData?              | Element                                               | string \| "No Data" | Content to be rendered in the table body when `data` is empty                                                                                                     |
+| defaultMinColWidth?  | number                                                | null                | Minimum width (in pixels) for each columns. Can be overridden on a per column basis with `minWidth` in the `Column` object                                        |
 
 **Column object:**
 
@@ -100,6 +101,7 @@ This table is definitely more on the basic side of the spectrum, but contains al
 | dataName            | string                                                                                |         | dataName is the name of the field in `data` to display in this column, this field is also used for sorting and therefore is required even if `cellValue` is provided                         |
 | cellValue?          | ({rowData: Object, toggleAccordion: Function, isOpen: boolean }) => string \| Element | null    | cellValue is a render prop that lets you customise what is rendered for the data in a specific column                                                                                        |
 | colWidthProportion? | number                                                                                | 1       | Sizing the columns of the table is done with colWidthProportion                                                                                                                              |
+| minWidth?           | number                                                                                | null    | minWidth of the column, will override `defaultMinColWidth if it is supplied                                                                                                                  |
 | sort?               | boolean \| (a: Object, b: Object) => number                                           | null    | Determines whether the column is sortable or not, if a boolean is supplied then the column is sorted alphanumerically. Alternatively, a custom sort comparator function can also be supplied |
 
 ## Styling
