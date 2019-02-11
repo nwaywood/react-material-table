@@ -12,13 +12,13 @@ exports[`Test Table 1`] = `
     />
   </div>
   <div
-    class="table-div css-w95vyd"
+    class="table-div css-915iz8"
   >
     <div
       class="table-header-row css-1obwat8"
     >
       <button
-        class="table-header-cell css-1kg6jq8"
+        class="table-header-cell css-19p62pq"
       >
         Name
         <svg
@@ -40,7 +40,7 @@ exports[`Test Table 1`] = `
         </svg>
       </button>
       <button
-        class="table-header-cell css-45wpjm"
+        class="table-header-cell css-10jf79"
       >
         Cacti
         <svg
@@ -62,7 +62,7 @@ exports[`Test Table 1`] = `
         </svg>
       </button>
       <button
-        class="table-header-cell css-1kg6jq8"
+        class="table-header-cell css-19p62pq"
       >
         Life Support
         <svg
@@ -90,17 +90,17 @@ exports[`Test Table 1`] = `
         tabindex="0"
       >
         <div
-          class="table-cell css-15u08dy"
+          class="table-cell css-1li66ao"
         >
           john
         </div>
         <div
-          class="table-cell css-ggjmaw"
+          class="table-cell css-19354gi"
         >
           Austrocylindropuntia
         </div>
         <div
-          class="table-cell css-15u08dy"
+          class="table-cell css-1li66ao"
         >
           Machiato
         </div>
@@ -112,17 +112,17 @@ exports[`Test Table 1`] = `
         tabindex="0"
       >
         <div
-          class="table-cell css-15u08dy"
+          class="table-cell css-1li66ao"
         >
           nick
         </div>
         <div
-          class="table-cell css-ggjmaw"
+          class="table-cell css-19354gi"
         >
           Stenocactus
         </div>
         <div
-          class="table-cell css-15u08dy"
+          class="table-cell css-1li66ao"
         >
           Latte
         </div>
