@@ -36,6 +36,7 @@
         "version": "npm run format && git add -A src",
         "postversion": "git push && git push --tags",
         "lint": "tslint --project tsconfig.json",
+        "lint-fix": "tslint --project tsconfig.json --fix",
         "tslint-check": "tslint-config-prettier-check ./tslint.json",
         "updateJest": "jest --updateSnapshot",
         "watch": "cross-env NODE_ENV=development rollup -cw"
