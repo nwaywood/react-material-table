@@ -369,6 +369,7 @@ const TableHeaderItemDiv = styled.div<{
     clickable: boolean
     minWidth: number | null
 }>`
+    user-select: none;
     display: flex;
     border: none;
     background-color: inherit;
