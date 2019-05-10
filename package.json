@@ -1,6 +1,6 @@
 {
     "name": "react-material-table",
-    "version": "0.1.1",
+    "version": "1.0.0",
     "author": "Nick Waywood, Antony Targett",
     "license": "MIT",
     "description": "Table component for React with a material-ui feel",
