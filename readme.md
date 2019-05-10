@@ -118,7 +118,7 @@ All of the key UI elements of the table have class names to allow for custom sty
 
 and applying styling at the root level
 
-For example, using the [emotion](https://emotion.sh/) css function:
+For example, using the [emotion](https://emotion.sh/) (version 9) css function:
 
 ```javascript
 import { css } from "emotion"
@@ -133,4 +133,21 @@ const tableStyle = {
 }
 
 const MyTable = () => <Table data={data} columns={columns} className={css(tableStyle)} />
+```
+
+or using the [emotion](https://emotion.sh/) (version 10) css function:
+
+```javascript
+import { css } from "@emotion/core"
+
+const tableStyle = {
+    ".table-div": {
+        backgroundColor: "grey"
+    },
+    ".table-cell": {
+        padding: "0px"
+    }
+}
+
+const MyTable = () => <Table data={data} columns={columns} css={tableStyle} />
 ```
