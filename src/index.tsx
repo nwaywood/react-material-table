@@ -87,42 +87,40 @@ const renderRow = (
     openIndexes: boolean[],
     defaultMinColWidth?: number
 ) => {
-    // Will render as a button to let a screenreader know that it is clickable when an onRowSelection is provided
-    const DynamicTableRow = TableRowDiv.withComponent(
-        !!onRowSelection ? "button" : "div"
-    )
-    return (rowItem: object, index: number) => (
-        <div key={index}>
-            <DynamicTableRow
-                className="table-row"
-                clickable={!!onRowSelection}
-                // Will always have tabIndex to allow screenreaders to navigate through the table
-                tabIndex={0}
-                // only add onClick listener if user has supplied a function
-                onClick={
-                    onRowSelection
-                        ? () =>
-                              onRowSelection({
-                                  rowData: rowItem,
-                                  toggleAccordion: toggleAccordion(index)
-                              })
-                        : () => false
-                }
-            >
-                {columns.map(
-                    renderRowColumn(
-                        rowItem,
-                        calcTotalProportions(columns),
-                        index,
-                        openIndexes,
-                        toggleAccordion,
-                        defaultMinColWidth
-                    )
-                )}
-            </DynamicTableRow>
-            {openIndexes[index] && accordion ? accordion(rowItem) : null}
-        </div>
-    )
+    return (rowItem: object, index: number) => {
+        const rowSelection = () =>
+            onRowSelection({
+                rowData: rowItem,
+                toggleAccordion: toggleAccordion(index)
+            })
+
+        return (
+            <div key={index}>
+                <TableRowDiv
+                    className="table-row"
+                    clickable={!!onRowSelection}
+                    // Will always have tabIndex to allow screenreaders to navigate through the table
+                    tabIndex={!!onRowSelection ? 0 : undefined}
+                    role={!!onRowSelection ? "button" : undefined}
+                    // only add onClick listener if user has supplied a function
+                    onClick={onRowSelection ? rowSelection : () => false}
+                    onKeyDown={onRowSelection ? rowSelection : () => false}
+                >
+                    {columns.map(
+                        renderRowColumn(
+                            rowItem,
+                            calcTotalProportions(columns),
+                            index,
+                            openIndexes,
+                            toggleAccordion,
+                            defaultMinColWidth
+                        )
+                    )}
+                </TableRowDiv>
+                {openIndexes[index] && accordion ? accordion(rowItem) : null}
+            </div>
+        )
+    }
 }
 
 const renderRowColumn = (
@@ -405,7 +403,13 @@ const TableRowDiv = styled.div<{ clickable: boolean }>`
     background-color: inherit;
     color: inherit;
     cursor: ${props => (props.clickable ? "pointer" : "cursor")};
-    outline-color: inherit;
+    &:focus {
+        outline: none;
+    }
+    &:focus-visible {
+        outline: auto 5px;
+        outline-color: inherit;
+    }
     width: 100%;
     border: none;
     border-bottom: 1px solid #e0e0e0;
