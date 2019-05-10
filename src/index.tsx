@@ -104,7 +104,12 @@ const renderRow = (
                     role={!!onRowSelection ? "button" : undefined}
                     // only add onClick listener if user has supplied a function
                     onClick={onRowSelection ? rowSelection : () => false}
-                    onKeyDown={onRowSelection ? rowSelection : () => false}
+                    onKeyDown={
+                        onRowSelection
+                            ? event =>
+                                  onEnterKeyPress(event, toggleAccordion(index))
+                            : () => false
+                    }
                 >
                     {columns.map(
                         renderRowColumn(
@@ -164,8 +169,6 @@ const renderRowColumn = (
 const onEnterKeyPress = (event, fn) => {
     if (event.keyCode === 13) {
         fn()
-    } else {
-        console.log("Make focus visable")
     }
 }
 const renderHeaderColumn = (
