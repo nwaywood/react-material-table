@@ -18,7 +18,7 @@ exports[`Test Table 1`] = `
       class="table-header-row css-1obwat8"
     >
       <div
-        class="table-header-cell css-38ajns"
+        class="table-header-cell css-1dv5wfr"
         role="button"
         tabindex="0"
       >
@@ -42,7 +42,7 @@ exports[`Test Table 1`] = `
         </svg>
       </div>
       <div
-        class="table-header-cell css-1rdn3c6"
+        class="table-header-cell css-1bszt25"
         role="button"
         tabindex="0"
       >
@@ -66,7 +66,7 @@ exports[`Test Table 1`] = `
         </svg>
       </div>
       <div
-        class="table-header-cell css-38ajns"
+        class="table-header-cell css-1dv5wfr"
         role="button"
         tabindex="0"
       >
