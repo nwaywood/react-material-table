@@ -163,7 +163,13 @@ const renderRowColumn = (
         </TableRowItemDiv>
     )
 }
-
+const onEnterKeyPress = (event, fn) => {
+    if (event.keyCode === 13) {
+        fn()
+    } else {
+        console.log("Make focus visable")
+    }
+}
 const renderHeaderColumn = (
     totalWidthProportions: number,
     setSortedColumn: (s: Sort) => void,
@@ -174,6 +180,14 @@ const renderHeaderColumn = (
     const isCurrentColumn = sortedColumn
         ? item.dataName === sortedColumn.dataName
         : false
+    const setColumn = () =>
+        setCurrentSortColumn(
+            isCurrentColumn,
+            item,
+            setSortedColumn,
+            sortedColumn,
+            sortCallback
+        )
     return (
         <TableHeaderItemDiv
             key={index}
@@ -183,19 +197,15 @@ const renderHeaderColumn = (
             className="table-header-cell"
             // only add onClick listener if user has supplied a sort function
             // i.e. if the column is sortable
-            onClick={
-                item.sort
-                    ? () =>
-                          setCurrentSortColumn(
-                              isCurrentColumn,
-                              item,
-                              setSortedColumn,
-                              sortedColumn,
-                              sortCallback
-                          )
-                    : () => false
-            }
+            onClick={item.sort ? setColumn : () => false}
             clickable={!!item.sort}
+            role={!!item.sort ? "button" : undefined}
+            tabIndex={!!item.sort ? 0 : undefined}
+            onKeyDown={
+                item.sort
+                    ? event => onEnterKeyPress(event, setColumn)
+                    : () => false
+            } // not working
         >
             {item.title}
             {renderArrow(
@@ -354,7 +364,7 @@ const TableHeaderRowDiv = styled.div`
     font-weight: bold;
     letter-spacing: 0.1;
 `
-const TableHeaderItemDiv = styled.button<{
+const TableHeaderItemDiv = styled.div<{
     colWidthProportion?: number
     totalWidthProportions: number
     onClick: any
@@ -366,7 +376,15 @@ const TableHeaderItemDiv = styled.button<{
     background-color: inherit;
     color: inherit;
     align-items: center;
-    outline-color: inherit;
+    &:focus {
+        outline: none;
+    }
+
+    &:focus-visible {
+        outline: auto 5px;
+        outline-color: inherit;
+    }
+
     cursor: ${props => (props.clickable ? "pointer" : "cursor")};
     width: ${props =>
         `${((props.colWidthProportion || 1) / props.totalWidthProportions) *
