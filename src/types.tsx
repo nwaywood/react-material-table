@@ -19,6 +19,8 @@ export type Props = {
     // what to render when data is empty
     noData?: string | JSX.Element
     defaultMinColWidth?: number
+    // For emotion css support
+    css?: any
 }
 
 export type Column = {
@@ -28,11 +30,13 @@ export type Column = {
     // field is also used for sorting and therefore is required even if cellValue is provided
     dataName: string
     // cellValue is a render prop that lets you customise what is rendered for the data in a specific column
-    cellValue?: (o: {
-        rowData: object
-        toggleAccordion: () => any
-        isOpen: boolean
-    }) => string | JSX.Element
+    cellValue?: (
+        o: {
+            rowData: object
+            toggleAccordion: () => any
+            isOpen: boolean
+        }
+    ) => string | JSX.Element
     // sizing the columns of the table is done with colWidthProportion, under the hood it just applies
     // the flex property with the specified value, if not supplied the default is 1
     colWidthProportion?: number
