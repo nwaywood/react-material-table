@@ -1,12 +1,12 @@
 import styled from "@emotion/styled"
-import React, { useState } from "react"
+import * as React from "react"
 import LoadingSpinner from "./LoadingSpinner"
 import { Column, Props, Sort } from "./types"
 import UpwardIcon from "./UpwardIcon"
 import { isDate } from "./util"
 
 const ReactMaterialTable = (props: Props) => {
-    const [sortedColumn, setSortedColumn] = useState(props.defaultSort)
+    const [sortedColumn, setSortedColumn] = React.useState(props.defaultSort)
     const TableBody = () => {
         if (props.loading) {
             return (
@@ -80,7 +80,7 @@ const renderRow = (
     defaultMinColWidth?: number
 ) => {
     return (rowItem: object, index: number) => {
-        const [accordianOpen, setAccordianOpen] = useState(false)
+        const [accordianOpen, setAccordianOpen] = React.useState(false)
         const toggleAccordion = () => setAccordianOpen(!accordianOpen)
         const rowSelection = () =>
             onRowSelection({
