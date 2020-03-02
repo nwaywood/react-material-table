@@ -1,23 +1,13 @@
 import styled from "@emotion/styled"
-import * as React from "react"
+import React, { useState } from "react"
 import LoadingSpinner from "./LoadingSpinner"
 import { Column, Props, Sort } from "./types"
 import UpwardIcon from "./UpwardIcon"
 import { isDate } from "./util"
 
 const ReactMaterialTable = (props: Props) => {
-    const [sortedColumn, setSortedColumn] = React.useState(props.defaultSort)
-    // initialise array with all false values because
-    // no items are open initially
-    const bools = new Array(props.data.length).fill(false)
-    const [openIndexes, setOpenIndexes] = React.useState(bools)
-    const toggleAccordion = (index: number) => () => {
-        // update the openIndexes bools
-        const tmp = [...openIndexes]
-        tmp[index] = !tmp[index]
-        setOpenIndexes(tmp)
-    }
-    const tableBody = () => {
+    const [sortedColumn, setSortedColumn] = useState(props.defaultSort)
+    const TableBody = () => {
         if (props.loading) {
             return (
                 <CenteredDiv>
@@ -30,26 +20,30 @@ const ReactMaterialTable = (props: Props) => {
         }
         // If the sorting function is provided, it is assumed all sorting is handled outside.
         if (props.sortCallback) {
-            return props.data.map(
-                renderRow(
-                    props.columns,
-                    props.onRowSelection,
-                    props.accordion,
-                    toggleAccordion,
-                    openIndexes,
-                    props.defaultMinColWidth
-                )
+            return (
+                <>
+                    {props.data.map(
+                        renderRow(
+                            props.columns,
+                            props.onRowSelection,
+                            props.accordion,
+                            props.defaultMinColWidth
+                        )
+                    )}
+                </>
             )
         }
-        return sortData(props.data, props.columns, sortedColumn).map(
-            renderRow(
-                props.columns,
-                props.onRowSelection,
-                props.accordion,
-                toggleAccordion,
-                openIndexes,
-                props.defaultMinColWidth
-            )
+        return (
+            <>
+                {sortData(props.data, props.columns, sortedColumn).map(
+                    renderRow(
+                        props.columns,
+                        props.onRowSelection,
+                        props.accordion,
+                        props.defaultMinColWidth
+                    )
+                )}
+            </>
         )
     }
     return (
@@ -67,7 +61,7 @@ const ReactMaterialTable = (props: Props) => {
                         )
                     )}
                 </TableHeaderRowDiv>
-                {tableBody()}
+                <TableBody />
             </TableDiv>
         </MainDiv>
     )
@@ -83,15 +77,15 @@ const renderRow = (
     columns: Column[],
     onRowSelection,
     accordion,
-    toggleAccordion,
-    openIndexes: boolean[],
     defaultMinColWidth?: number
 ) => {
     return (rowItem: object, index: number) => {
+        const [accordianOpen, setAccordianOpen] = useState(false)
+        const toggleAccordion = () => setAccordianOpen(!accordianOpen)
         const rowSelection = () =>
             onRowSelection({
                 rowData: rowItem,
-                toggleAccordion: toggleAccordion(index)
+                toggleAccordion
             })
 
         return (
@@ -106,8 +100,7 @@ const renderRow = (
                     onClick={onRowSelection ? rowSelection : () => false}
                     onKeyDown={
                         onRowSelection
-                            ? event =>
-                                  onEnterKeyPress(event, toggleAccordion(index))
+                            ? event => onEnterKeyPress(event, toggleAccordion)
                             : () => false
                     }
                 >
@@ -116,13 +109,13 @@ const renderRow = (
                             rowItem,
                             calcTotalProportions(columns),
                             index,
-                            openIndexes,
+                            accordianOpen,
                             toggleAccordion,
                             defaultMinColWidth
                         )
                     )}
                 </TableRowDiv>
-                {openIndexes[index] && accordion ? accordion(rowItem) : null}
+                {accordianOpen && accordion ? accordion(rowItem) : null}
             </div>
         )
     }
@@ -132,27 +125,28 @@ const renderRowColumn = (
     rowItem: object,
     totalWidthProportions: number,
     index: number,
-    openIndexes: boolean[],
+    isOpen: boolean,
     toggleAccordion,
     defaultMinColWidth?: number
 ) => (columnItem: Column, columnIndex: number) => {
-    let tmp
-    if (columnItem.cellValue) {
-        tmp = columnItem.cellValue({
-            isOpen: openIndexes[index],
-            rowData: rowItem,
-            toggleAccordion: toggleAccordion(index)
-        })
-    } else {
-        const cellData = rowItem[columnItem.dataName]
-        if (cellData === undefined) {
-            console.warn(
-                `dataName "${
-                    columnItem.dataName
-                }" does not match any of the data fields. Make sure the key/value pair matches the dataname`
-            )
+    const getContent = () => {
+        if (columnItem.cellValue) {
+            return columnItem.cellValue({
+                isOpen,
+                rowData: rowItem,
+                toggleAccordion
+            })
+        } else {
+            const cellData = rowItem[columnItem.dataName]
+            if (cellData === undefined) {
+                console.warn(
+                    `dataName "${
+                        columnItem.dataName
+                    }" does not match any of the data fields. Make sure the key/value pair matches the dataname`
+                )
+            }
+            return cellData
         }
-        tmp = cellData
     }
     return (
         <TableRowItemDiv
@@ -162,7 +156,7 @@ const renderRowColumn = (
             colWidthProportion={columnItem.colWidthProportion}
             minWidth={columnItem.minWidth || defaultMinColWidth || null}
         >
-            {tmp}
+            {getContent()}
         </TableRowItemDiv>
     )
 }
