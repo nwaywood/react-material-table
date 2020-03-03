@@ -5,6 +5,16 @@ import { Column, Props, Sort } from "./types"
 import UpwardIcon from "./UpwardIcon"
 import { isDate } from "./util"
 
+function getTextWidth(text, font) {
+    // re-use canvas object for better performance
+    const canvas =
+        getTextWidth.canvas ||
+        (getTextWidth.canvas = document.createElement("canvas"))
+    const context = canvas.getContext("2d")
+    context.font = font
+    const metrics = context.measureText(text)
+    return metrics.width
+}
 const ReactMaterialTable = (props: Props) => {
     const [sortedColumn, setSortedColumn] = React.useState(props.defaultSort)
     const TableBody = () => {
@@ -148,15 +158,43 @@ const renderRowColumn = (
             return cellData
         }
     }
+    console.log(getTextWidth(rowItem[columnItem.dataName], "14px"))
+    const targetRef = React.useRef()
+    const [showTooltip, setShowTooltip] = React.useState(false)
+    React.useLayoutEffect(() => {
+        if (targetRef && targetRef.current) {
+            if (
+                targetRef.current.getBoundingClientRect().toJSON().width <
+                getTextWidth(rowItem[columnItem.dataName], "14px")
+            ) {
+                console.log("TRUE??", rowItem[columnItem.dataName])
+                setShowTooltip(true)
+            } else {
+                setShowTooltip(false)
+            }
+        }
+    }, [targetRef.current])
+
+    console.log("Should show tooltip: ")
     return (
         <TableRowItemDiv
+            ref={targetRef}
+            tooltipId={index}
             key={columnIndex}
             className="table-cell"
             totalWidthProportions={totalWidthProportions}
             colWidthProportion={columnItem.colWidthProportion}
             minWidth={columnItem.minWidth || defaultMinColWidth || null}
+            showTooltip={showTooltip}
         >
             {getContent()}
+            {showTooltip && rowItem[columnItem.dataName] && (
+                <Tooltip id={`tooltip${index}`}>
+                    <TooltipContent>
+                        {rowItem[columnItem.dataName]}
+                    </TooltipContent>
+                </Tooltip>
+            )}
         </TableRowItemDiv>
     )
 }
@@ -421,6 +459,9 @@ const TableRowItemDiv = styled.div<{
     colWidthProportion?: number
     totalWidthProportions: number
     minWidth: number | null
+    ref: object
+    showTooltip: boolean
+    tooltipId: string
 }>`
     width: ${props =>
         `${((props.colWidthProportion || 1) / props.totalWidthProportions) *
@@ -431,6 +472,26 @@ const TableRowItemDiv = styled.div<{
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    &:hover > #tooltip${props => props.tooltipId} {
+        ${props => (props.showTooltip ? `visibility: visible` : "")};
+    }
+`
+
+const TooltipContent = styled.div<{}>`
+    display: inline;
+    color: #fff;
+    text-align: center;
+    white-space: normal;
+    word-wrap: break-word;
+`
+const Tooltip = styled.div<{}>`
+    visibility: hidden;
+    background-color: black;
+    max-width: 300px;
+    z-index: 1;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: fixed;
 `
 
 export default ReactMaterialTable
