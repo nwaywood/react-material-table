@@ -13,7 +13,10 @@
         "outDir": "compiled",
         "noLib": false,
         "strict": true,
-        "suppressImplicitAnyIndexErrors": true
+        "suppressImplicitAnyIndexErrors": true,
+        "plugins": [
+            {"name": "typescript-tslint-plugin"}
+        ]
     },
     "include": [
         "./src",

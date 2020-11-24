@@ -60,7 +60,8 @@
     "dependencies": {
         "@emotion/core": "^10.0.6",
         "@emotion/styled": "^10.0.6",
-        "tslib": "^1.9.3"
+        "tslib": "^1.9.3",
+        "typescript-tslint-plugin": "^0.5.5"
     },
     "peerDependencies": {
         "react": ">=16.8.0",
